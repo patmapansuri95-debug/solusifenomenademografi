@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekspedisi Demografi Nusantara - Media Pembelajaran Geografi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter, Outfit & Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <!-- html2canvas for downloading certificate as image -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        ocean: {
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes title-zoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .title-zoom {
+            animation: title-zoom 4s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .subtitle-image {
+            display: block;
+            width: 90%;
+            height: clamp(72px, 14.5vw, 86px);
+            object-fit: cover;
+            object-position: center;
+        }
+        @keyframes slide3-data-drift {
+            from { transform: translate3d(-8px, 0, 0); }
+            to { transform: translate3d(8px, -8px, 0); }
+        }
+        @keyframes slide3-fade-up {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide3-route-progress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+        .cp-card,
+        .learning-objective,
+        .expedition-route {
+            position: relative;
+            isolation: isolate;
+        }
+        .cp-card {
+            overflow: hidden;
+            transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+            box-shadow: 0 0 26px rgba(16, 185, 129, 0.08);
+        }
+        .cp-card::before,
+        .expedition-route::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 90% 10%, rgba(52, 211, 153, 0.15), transparent 38%);
+        }
+        .cp-card::after,
+        .expedition-route::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.28;
+            background-image: radial-gradient(circle, rgba(125, 211, 252, 0.8) 1px, transparent 1.5px), radial-gradient(circle, rgba(52, 211, 153, 0.75) 1px, transparent 1.5px);
+            background-size: 42px 42px, 61px 61px;
+            background-position: 4px 8px, 22px 25px;
+            animation: slide3-data-drift 12s ease-in-out infinite alternate;
+        }
+        .cp-card > *:not(.cp-watermark),
+        .expedition-route > span {
+            position: relative;
+            z-index: 1;
+        }
+        .cp-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(52, 211, 153, 0.65);
+            box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.28), 0 14px 36px rgba(16, 185, 129, 0.14);
+        }
+        .cp-watermark {
+            position: absolute;
+            right: 1.25rem;
+            bottom: 1.2rem;
+            z-index: 0;
+            color: rgba(110, 231, 183, 0.1);
+            font-size: 5rem;
+            pointer-events: none;
+        }
+        .learning-objective {
+            background: linear-gradient(115deg, rgba(30, 41, 59, 0.82), rgba(15, 23, 42, 0.62));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease;
+        }
+        .learning-objective:hover {
+            transform: translateX(4px);
+            border-color: rgba(56, 189, 248, 0.42);
+            background-color: rgba(30, 41, 59, 0.92);
+        }
+        .objective-number {
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.28), rgba(8, 47, 73, 0.72));
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.18);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+        }
+        .objective-icon {
+            width: 2.25rem;
+            height: 2.25rem;
+            background: rgba(14, 116, 144, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.18);
+        }
+        #slide-3:not(.hidden) .learning-objective {
+            animation: slide3-fade-up 480ms ease-out both;
+        }
+        #slide-3:not(.hidden) .learning-objective:nth-of-type(1) { animation-delay: 90ms; }
+        #slide-3:not(.hidden) .learning-objective:nth-of-type(2) { animation-delay: 170ms; }
+        #slide-3:not(.hidden) .learning-objective:nth-of-type(3) { animation-delay: 250ms; }
+        #slide-3:not(.hidden) .learning-objective:nth-of-type(4) { animation-delay: 330ms; }
+        #slide-3:not(.hidden) .learning-objective:nth-of-type(5) { animation-delay: 410ms; }
+        .expedition-route {
+            overflow: hidden;
+            background: linear-gradient(115deg, rgba(15, 23, 42, 0.96), rgba(8, 47, 73, 0.58), rgba(15, 23, 42, 0.96));
+        }
+        .expedition-route::before {
+            background: radial-gradient(ellipse at 50% 100%, rgba(14, 165, 233, 0.13), transparent 55%);
+        }
+        .route-watermark {
+            position: absolute;
+            right: 1.5rem;
+            bottom: 0.5rem;
+            z-index: 0;
+            color: rgba(125, 211, 252, 0.055);
+            font-size: 7rem;
+            pointer-events: none;
+        }
+        .flow-steps {
+            position: relative;
+            z-index: 1;
+        }
+        .flow-steps::before,
+        .flow-steps::after {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: 12.5%;
+            width: 75%;
+            height: 2px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .flow-steps::before { background: rgba(100, 116, 139, 0.55); }
+        .flow-steps::after {
+            transform: scaleX(0);
+            transform-origin: left;
+            background: linear-gradient(90deg, #34d399, #38bdf8, #fbbf24, #a78bfa);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.75);
+        }
+        #slide-3:not(.hidden) .flow-steps::after {
+            animation: slide3-route-progress 1.2s ease-out 300ms forwards;
+        }
+        .flow-step {
+            position: relative;
+            min-width: 0;
+            border: 1px solid rgba(100, 116, 139, 0.45);
+            background: rgba(15, 23, 42, 0.74);
+            transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+        }
+        .flow-step:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.65);
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.15);
+        }
+        .flow-step-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 2px solid rgba(15, 23, 42, 0.95);
+            box-shadow: 0 0 16px currentColor;
+        }
+        .flow-step-progress {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin-top: 0.6rem;
+        }
+        .flow-step-progress span {
+            width: 10px;
+            height: 3px;
+            border-radius: 999px;
+            background: rgba(100, 116, 139, 0.55);
+        }
+        .flow-step:first-child .flow-step-progress span:first-child,
+        .flow-step:nth-child(2) .flow-step-progress span:nth-child(-n+2),
+        .flow-step:nth-child(3) .flow-step-progress span:nth-child(-n+3),
+        .flow-step:nth-child(4) .flow-step-progress span {
+            background: currentColor;
+            box-shadow: 0 0 7px currentColor;
+        }
+        @media (max-width: 767px) {
+            .flow-steps::before,
+            .flow-steps::after { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .cp-card::after,
+            #slide-3:not(.hidden) .learning-objective,
+            #slide-3:not(.hidden) .flow-steps::after {
+                animation: none !important;
+            }
+            #slide-3:not(.hidden) .flow-steps::after { transform: scaleX(1); }
+            .cp-card,
+            .learning-objective,
+            .flow-step { transition: none; }
+        }
+        .population-dashboard {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background: rgba(8, 20, 38, 0.88);
+            box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.08), 0 12px 34px rgba(2, 8, 23, 0.22);
+        }
+        .population-dashboard::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 8% 18%, rgba(16, 185, 129, 0.13), transparent 42%), radial-gradient(ellipse at 92% 88%, rgba(56, 189, 248, 0.11), transparent 44%);
+        }
+        .population-donut {
+            filter: drop-shadow(0 0 13px rgba(16, 185, 129, 0.26));
+        }
+        .population-donut-track {
+            fill: none;
+            stroke: rgba(71, 85, 105, 0.62);
+            stroke-width: 12;
+        }
+        .population-donut-value {
+            fill: none;
+            stroke: #10b981;
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 186.6 414.7;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+        .composition-track {
+            height: 5px;
+            border-radius: 999px;
+            background: rgba(71, 85, 105, 0.5);
+            overflow: hidden;
+        }
+        .composition-fill {
+            display: block;
+            height: 100%;
+            border-radius: inherit;
+            box-shadow: 0 0 10px currentColor;
+        }
+        .composition-productive { width: 68.95%; background: #10b981; color: #10b981; }
+        .composition-youth { width: 100%; background: linear-gradient(90deg, rgba(251, 146, 60, 0.45), #fb923c); color: #fb923c; }
+        .composition-elderly { width: 11.97%; background: #a78bfa; color: #a78bfa; }
+        .worker-illustration {
+            filter: drop-shadow(0 6px 16px rgba(16, 185, 129, 0.12));
+        }
+        .ageing-card {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(15, 35, 54, 0.94), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 14px 34px rgba(2, 8, 23, 0.22);
+            transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+        }
+        .ageing-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 8% 12%, rgba(16, 185, 129, 0.12), transparent 42%), radial-gradient(ellipse at 100% 100%, rgba(56, 189, 248, 0.1), transparent 46%);
+        }
+        .ageing-card > * {
+            position: relative;
+            z-index: 1;
+        }
+        .ageing-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(16, 185, 129, 0.42);
+            box-shadow: 0 18px 40px rgba(2, 8, 23, 0.3), 0 0 24px rgba(16, 185, 129, 0.08);
+        }
+        .ageing-art-panel {
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            background: linear-gradient(135deg, rgba(30, 64, 78, 0.38), rgba(15, 23, 42, 0.56));
+        }
+        .ageing-character-art {
+            filter: drop-shadow(0 8px 18px rgba(2, 8, 23, 0.24));
+        }
+        .ageing-stat-badge {
+            border: 1px solid rgba(16, 185, 129, 0.28);
+            background: rgba(6, 78, 59, 0.24);
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.08);
+        }
+        .ageing-comparison {
+            border: 1px solid rgba(56, 189, 248, 0.16);
+            background: rgba(8, 20, 38, 0.62);
+        }
+        .ageing-challenge {
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            background: rgba(15, 23, 42, 0.58);
+        }
+        .ageing-challenge-icon {
+            width: 2.25rem;
+            height: 2.25rem;
+            flex: 0 0 2.25rem;
+            box-shadow: 0 0 15px currentColor;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .ageing-card { transition: none; }
+        }
+        .expedition-position-panel {
+            border: 1px solid rgba(100, 116, 139, 0.55);
+            background: rgba(15, 23, 42, 0.82);
+        }
+        .position-progress-fill {
+            transition: width 450ms cubic-bezier(.2,.75,.25,1);
+        }
+        .avatar-option input:checked + .avatar-option-card {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+        }
+        .avatar-option input:focus-visible + .avatar-option-card {
+            outline: 2px solid #34d399;
+            outline-offset: 3px;
+        }
+        .content-slide-background {
+            position: relative;
+            isolation: isolate;
+            border-radius: 1.5rem;
+        }
+        .content-slide-background::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: url('assets/bckg.jpeg') center / cover no-repeat;
+            pointer-events: none;
+        }
+        #slide-5::before {
+            background: url('assets/latarbelakang.jpeg') center / cover no-repeat;
+        }
+        .expedition-map-shell {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1024 / 585;
+            min-height: 320px;
+            overflow: hidden;
+            isolation: isolate;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 1.15rem;
+            background: rgba(15, 23, 42, 0.88);
+            box-shadow: 0 16px 48px rgba(2, 8, 23, 0.35);
+        }
+        .expedition-map-image,
+        .expedition-map-routes {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .expedition-map-image {
+            z-index: -2;
+            object-fit: fill;
+        }
+        .expedition-map-shell::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: linear-gradient(180deg, rgba(4, 10, 21, 0.54), transparent 23%, transparent 76%, rgba(4, 10, 21, 0.28));
+        }
+        .expedition-map-topbar {
+            position: absolute;
+            z-index: 4;
+            top: clamp(8px, 2vw, 22px);
+            left: clamp(8px, 2vw, 22px);
+            right: clamp(8px, 2vw, 22px);
+            display: flex;
+            align-items: flex-start;
+                justify-content: flex-end;
+            gap: 8px;
+            pointer-events: none;
+        }
+        .expedition-map-player {
+            border: 1px solid rgba(226, 232, 240, 0.2);
+            border-radius: 0.8rem;
+            background: rgba(7, 16, 31, 0.76);
+            padding: 0.55rem 0.75rem;
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+            box-shadow: 0 5px 20px rgba(2, 8, 23, 0.22);
+        }
+        .expedition-map-player {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .expedition-map-routes { z-index: 1; pointer-events: none; }
+        .route-glow {
+            fill: none;
+            stroke-linecap: round;
+            stroke-dasharray: 2 10;
+            stroke-width: 5;
+        }
+        .route-glow {
+            opacity: 0;
+            stroke: #ffffff;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.55));
+        }
+        .expedition-map-shell[data-unlocked="2"] .route-1,
+        .expedition-map-shell[data-unlocked="3"] .route-1,
+        .expedition-map-shell[data-unlocked="3"] .route-2,
+        .expedition-map-shell[data-unlocked="4"] .route-1,
+        .expedition-map-shell[data-unlocked="4"] .route-2,
+        .expedition-map-shell[data-unlocked="4"] .route-3 {
+            opacity: 1;
+            animation: expedition-route-pulse 1.5s linear infinite;
+        }
+        @keyframes expedition-route-pulse {
+            to { stroke-dashoffset: -24; }
+        }
+        .expedition-stop {
+            position: absolute;
+            z-index: 3;
+            width: clamp(48px, 6vw, 72px);
+            height: clamp(48px, 6vw, 72px);
+            min-width: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+        .stop-1 { left: 18%; top: 53%; }
+        .stop-2 { left: 39%; top: 70%; }
+        .stop-3 { left: 63%; top: 32%; }
+        .stop-4 { left: 86%; top: 47%; }
+        .expedition-stop::after {
+            content: '';
+            position: absolute;
+            inset: 13%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            pointer-events: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+        .expedition-stop::before {
+            content: '';
+            position: absolute;
+            inset: 14%;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(3, 8, 18, 0.78), rgba(3, 8, 18, 0.34) 62%, transparent 72%);
+            opacity: 0;
+            transition: opacity 180ms ease;
+        }
+        .expedition-stop.is-locked::before { opacity: 0.85; }
+        .expedition-stop:not(:disabled):hover::after,
+        .expedition-stop:not(:disabled):focus-visible::after {
+            border-color: rgba(167, 243, 208, 0.95);
+            box-shadow: 0 0 16px rgba(16, 185, 129, 0.95), inset 0 0 10px rgba(16, 185, 129, 0.36);
+        }
+        .expedition-stop.is-current::after,
+        .expedition-stop.is-active::after {
+            border-color: #a7f3d0;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.98), inset 0 0 12px rgba(16, 185, 129, 0.42);
+        }
+        .expedition-stop.is-current:not(.is-active)::after {
+            animation: expedition-stop-pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes expedition-stop-pulse {
+            50% { box-shadow: 0 0 28px rgba(16, 185, 129, 0.95), inset 0 0 14px rgba(16, 185, 129, 0.48); }
+        }
+        .expedition-stop:disabled { cursor: not-allowed; }
+        .expedition-stop.is-complete::after {
+            border-color: rgba(110, 231, 183, 0.7);
+            box-shadow: 0 0 13px rgba(16, 185, 129, 0.66);
+        }
+        .expedition-stop.is-locked::after { border-color: transparent; box-shadow: none; }
+        .expedition-stop-check {
+            position: absolute;
+            top: 5%;
+            right: 6%;
+            display: grid;
+            width: 1.35rem;
+            height: 1.35rem;
+            place-items: center;
+            border: 1px solid rgba(167, 243, 208, 0.9);
+            border-radius: 50%;
+            background: #047857;
+            color: #ecfdf5;
+            font-size: 0.7rem;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: opacity 160ms ease, transform 160ms ease;
+        }
+        .expedition-stop.is-complete .expedition-stop-check { opacity: 1; transform: scale(1); }
+        .expedition-player-marker {
+            position: absolute;
+            z-index: 4;
+            top: var(--player-y, 53%);
+            left: var(--player-x, 18%);
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            background: #ffffff;
+            object-fit: cover;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
+            transform: translate(-50%, -50%);
+            transition: top 500ms ease, left 500ms ease;
+            pointer-events: none;
+        }
+        .expedition-finish-card {
+            position: absolute;
+            z-index: 5;
+            right: clamp(8px, 2vw, 22px);
+            bottom: clamp(8px, 2vw, 22px);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            max-width: calc(100% - 16px);
+            border: 1px solid rgba(52, 211, 153, 0.48);
+            border-radius: 0.9rem;
+            background: rgba(7, 16, 31, 0.92);
+            padding: 0.75rem;
+            box-shadow: 0 0 24px rgba(16, 185, 129, 0.2);
+        }
+        .expedition-modal {
+            position: fixed;
+            z-index: 80;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+        }
+        .expedition-modal.hidden { display: none; }
+        .expedition-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(3, 8, 18, 0.78);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
+        .expedition-briefing-card,
+        .expedition-activity-window {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 760px);
+            max-height: min(90vh, 900px);
+            overflow-y: auto;
+            border: 1px solid rgba(56, 189, 248, 0.38);
+            border-radius: 1.25rem;
+            background: rgba(8, 18, 34, 0.96);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58), 0 0 32px rgba(16, 185, 129, 0.12);
+        }
+        .expedition-briefing-card {
+            width: min(100%, 900px);
+            max-height: 90vh;
+            overflow: hidden;
+            border: 0;
+            border-radius: 1rem;
+            background: transparent;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
+        }
+        .briefing-image {
+            display: block;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: inherit;
+            object-fit: contain;
+        }
+        .briefing-confirm {
+            position: absolute;
+            right: clamp(10px, 2.5vw, 24px);
+            bottom: clamp(10px, 2.5vw, 24px);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(167, 243, 208, 0.72);
+            border-radius: 0.75rem;
+            background: rgba(5, 46, 37, 0.94);
+            padding: 0.65rem 1rem;
+            color: #ecfdf5;
+            font-size: 0.85rem;
+            font-weight: 800;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.38);
+            cursor: pointer;
+        }
+        .expedition-modal-close {
+            display: inline-flex;
+            width: 2.25rem;
+            height: 2.25rem;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 2.25rem;
+            border: 1px solid rgba(148, 163, 184, 0.32);
+            border-radius: 0.65rem;
+            background: rgba(15, 23, 42, 0.72);
+            color: #e2e8f0;
+            cursor: pointer;
+        }
+        .briefing-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            border: 1px solid rgba(226, 232, 240, 0.12);
+            border-radius: 0.75rem;
+            background: rgba(7, 16, 31, 0.66);
+            padding: 0.8rem;
+        }
+        .briefing-info > i { margin-top: 0.15rem; }
+        .briefing-info strong,
+        .briefing-info span { display: block; }
+        .briefing-info strong { margin-bottom: 0.2rem; color: #f8fafc; font-size: 0.75rem; }
+        .briefing-info span { color: #cbd5e1; font-size: 0.68rem; line-height: 1.45; }
+        .expedition-activity-window { width: min(100%, 900px); }
+        .expedition-activity-header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(8, 18, 34, 0.97);
+            padding: 0.9rem 1.25rem;
+        }
+        .expedition-activity-content { padding: 1.25rem; }
+        @media (max-width: 640px) {
+            .expedition-map-shell { min-height: 0; }
+            .expedition-map-player { padding: 0.35rem 0.45rem; }
+            .expedition-activity-content { padding: 0.85rem; }
+            .expedition-activity-header { padding: 0.75rem 0.85rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .expedition-map-shell[data-unlocked="2"] .route-1,
+            .expedition-map-shell[data-unlocked="3"] .route-1,
+            .expedition-map-shell[data-unlocked="3"] .route-2,
+            .expedition-map-shell[data-unlocked="4"] .route-1,
+            .expedition-map-shell[data-unlocked="4"] .route-2,
+            .expedition-map-shell[data-unlocked="4"] .route-3 { animation: none; }
+            .expedition-stop.is-current:not(.is-active)::after { animation: none; }
+            .expedition-player-marker { transition: none; }
+        }
+        .content-slide-background > * {
+            position: relative;
+            z-index: 1;
+        }
+        .content-slide-background .expedition-modal {
+            position: fixed;
+            z-index: 80;
+            inset: 0;
+        }
+        @keyframes lesson-rise-in {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes lesson-highlight {
+            0%, 100% { background-color: transparent; }
+            35% { background-color: rgba(16, 185, 129, 0.16); }
+        }
+        @keyframes expedition-progress-fill {
+            to { transform: scaleX(1); }
+        }
+        .urbanization-heading,
+        .urbanization-tabs,
+        .urban-stat-card,
+        .urban-map-panel,
+        .urban-table-panel,
+        .urban-progress-panel {
+            opacity: 0;
+            transform: translateY(14px);
+        }
+        .urbanization-heading.sequence-visible,
+        .urbanization-tabs.sequence-visible,
+        .urban-stat-card.sequence-visible,
+        .urban-map-panel.sequence-visible,
+        .urban-table-panel.sequence-visible,
+        .urban-progress-panel.sequence-visible {
+            animation: lesson-rise-in 550ms ease-out forwards;
+        }
+        .urbanization-heading.sequence-visible { animation-delay: 60ms; }
+        .urbanization-tabs.sequence-visible { animation-delay: 320ms; }
+        .urban-stat-card:nth-child(1).sequence-visible { animation-delay: 640ms; }
+        .urban-stat-card:nth-child(2).sequence-visible { animation-delay: 940ms; }
+        .urban-stat-card:nth-child(3).sequence-visible { animation-delay: 1240ms; }
+        .urban-map-panel.sequence-visible { animation-delay: 2550ms; }
+        .urban-table-panel.sequence-visible { animation-delay: 3300ms; }
+        .urban-progress-panel.sequence-visible { animation-delay: 5050ms; }
+        .urban-table-row {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        .sequence-running .urban-table-row.sequence-visible {
+            animation: lesson-rise-in 420ms ease-out forwards;
+        }
+        .sequence-running .urban-table-row:nth-child(1).sequence-visible { animation-delay: 3500ms; }
+        .sequence-running .urban-table-row:nth-child(2).sequence-visible { animation-delay: 3680ms; }
+        .sequence-running .urban-table-row:nth-child(3).sequence-visible { animation-delay: 3860ms; }
+        .sequence-running .urban-table-row:nth-child(4).sequence-visible { animation-delay: 4040ms; }
+        .sequence-running .urban-table-row.data-highlight.sequence-visible {
+            animation-name: lesson-rise-in, lesson-highlight;
+            animation-duration: 420ms, 1.1s;
+            animation-timing-function: ease-out, ease-in-out;
+            animation-delay: 3500ms, 4650ms;
+            animation-iteration-count: 1, 2;
+            animation-fill-mode: forwards, none;
+        }
+        .sequence-running .urban-table-row:nth-child(4).data-highlight.sequence-visible {
+            animation-delay: 4040ms, 4650ms;
+        }
+        .density-map-island {
+            fill: #334155;
+            stroke: #64748b;
+            stroke-width: 1.5;
+        }
+        .density-map-island.java { fill: #047857; stroke: #34d399; }
+        .density-map-marker { stroke: #f8fafc; stroke-width: 2; }
+        .density-map-label {
+            fill: #e2e8f0;
+            font: 600 11px Inter, sans-serif;
+        }
+        .density-map-sub-label {
+            fill: #94a3b8;
+            font: 10px Inter, sans-serif;
+        }
+        .density-map-location-marker {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px currentColor;
+            animation: density-marker-pulse 1.5s ease-in-out infinite;
+        }
+        .density-map-location-marker::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            animation: density-marker-ring 1.5s ease-out infinite;
+        }
+        .density-map-jakarta { left: 27.4%; top: 54%; color: #fb7185; background: #fb7185; }
+        .density-map-kalbar { left: 36.82%; top: 40.92%; color: #38bdf8; background: #38bdf8; }
+        @keyframes density-marker-pulse {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 5px currentColor; }
+            50% { opacity: 1; box-shadow: 0 0 16px currentColor; }
+        }
+        @keyframes density-marker-ring {
+            0% { opacity: 0.8; transform: scale(0.65); }
+            100% { opacity: 0; transform: scale(1.7); }
+        }
+        .expedition-progress-fill {
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+        .sequence-running .expedition-progress-fill {
+            animation: expedition-progress-fill 900ms cubic-bezier(.2,.75,.25,1) 5.5s forwards;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .urbanization-heading,
+            .urbanization-tabs,
+            .urban-stat-card,
+            .urban-map-panel,
+            .urban-table-panel,
+            .urban-progress-panel,
+            .urban-table-row {
+                opacity: 1;
+                transform: none;
+                animation: none !important;
+            }
+            .expedition-progress-fill { transform: scaleX(1); animation: none !important; }
+            .density-map-location-marker,
+            .density-map-location-marker::after { animation: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .title-zoom { animation: none; }
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .slide-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #34d399 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+        /* Certificate Frame Styling */
+        .cert-border {
+            border: 12px solid #1e293b;
+            outline: 3px double #10b981;
+            outline-offset: -8px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500 selection:text-white">
+    <audio id="bg-audio" src="assets/sound.mpeg" loop preload="auto"></audio>
+    <audio id="effect-audio" preload="auto"></audio>
+
+    <!-- Top Navigation & Progress Header -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-panel border-b border-slate-800 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="assets/unp.png" alt="Logo Universitas Negeri Padang" class="w-10 h-10 object-contain">
+                <h1 class="font-display font-bold text-sm md:text-lg text-white leading-tight">UNIVERSITAS NEGERI PADANG</h1>
+            </div>
+
+            <!-- Slide Indicators -->
+            <div class="hidden md:flex items-center gap-1.5 bg-slate-900/80 p-1.5 rounded-full border border-slate-800">
+                <button onclick="goToSlide(1)" id="dot-1" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-blue-950 text-white border border-blue-800">1</button>
+                <button onclick="goToSlide(2)" id="dot-2" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">2</button>
+                <button onclick="goToSlide(3)" id="dot-3" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">3</button>
+                <button onclick="goToSlide(4)" id="dot-4" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">4</button>
+                <button onclick="goToSlide(5)" id="dot-5" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">5</button>
+                <button onclick="goToSlide(6)" id="dot-6" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">6</button>
+                <button onclick="goToSlide(7)" id="dot-7" class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white">7</button>
+            </div>
+
+            <!-- Student Profile Chip (Dynamic) -->
+            <div id="user-chip" class="hidden sm:flex items-center gap-2 bg-slate-900/90 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs">
+                <img id="chip-avatar" src="assets/avtar1.jpeg" alt="Avatar siswa" class="w-10 h-10 rounded-full object-cover bg-white border border-slate-600 shrink-0">
+                <div class="min-w-0">
+                    <span id="chip-name" class="font-semibold text-slate-200 block max-w-[120px] truncate">Siswa</span>
+                    <span id="chip-class" class="text-slate-400 block text-[10px] max-w-[140px] truncate">Kelas -</span>
+                    <span id="chip-school" class="text-slate-400 block text-[10px] max-w-[140px] truncate">Asal sekolah -</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Slide Deck Container -->
+    <main class="pt-20 pb-8 min-h-screen flex items-center justify-center px-4">
+        <div class="w-full max-w-6xl mx-auto self-start md:self-center">
+
+            <!-- SLIDE 1: Title & Subject Identity -->
+            <section id="slide-1" class="slide-card space-y-8 py-6">
+                <div class="relative overflow-hidden rounded-3xl p-8 md:p-12 glass-panel border border-emerald-500/20 shadow-2xl" style="background-image: url('assets/cover.jpeg'); background-size: cover; background-position: center;">
+                    <div class="absolute left-7 top-7 z-20 flex flex-col items-center text-center">
+                        <img src="assets/pak.png" alt="Dr. Nofrion, M.Pd" class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-white/80 shadow-lg shadow-slate-900/40 bg-white/80">
+                        <p class="mt-2 text-[11px] md:text-xs font-semibold text-sky-900 drop-shadow-md">Dr. Nofrion, M.Pd</p>
+                    </div>
+
+                    <div class="relative z-10 max-w-3xl mx-auto space-y-4 text-center">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-950/30 border border-blue-800/50 text-xs font-bold tracking-wide uppercase" style="color: #1261A0;">
+                            <i class="fa-solid fa-earth-asia"></i> Media Pembelajaran Interaktif Geografi
+                        </div>
+
+                        <img src="assets/jdl.png" alt="Solusi untuk Dampak Fenomena Demografi di Indonesia" class="title-zoom block w-11/12 max-w-4xl h-auto mx-auto">
+
+                        <div class="mx-auto w-4/5 max-w-2xl rounded-xl bg-white/80 p-1.5 md:p-2.5" style="margin-top: -40px;">
+                            <img src="assets/subjudul.png" alt="Jelajahi dinamika kependudukan Nusantara, analisis tantangan ledakan penduduk, urbanisasi, bonus demografi, hingga ageing population, serta rancang strategi kebijakan menuju Indonesia Emas 2045." class="subtitle-image mx-auto">
+                        </div>
+
+                        <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
+                            <button onclick="goToSlide(2)" class="px-8 py-4 rounded-xl gradient-bg font-bold text-white shadow-xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-3 group text-base">
+                                <span>Mulai Ekspedisi</span>
+                                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: Input Identitas Murid -->
+            <section id="slide-2" class="slide-card content-slide-background hidden py-6">
+                <div class="glass-panel rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl max-w-2xl mx-auto">
+                    <div class="text-center space-y-3 mb-8">
+                        <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
+                            <i class="fa-solid fa-id-card text-2xl text-white"></i>
+                        </div>
+                        <h2 class="font-display text-2xl md:text-3xl font-bold text-white">Registrasi Peneliti Muda</h2>
+                        <p class="text-slate-400 text-sm">Isi data diri Anda sebelum memulai ekspedisi pengumpulan data kependudukan.</p>
+                    </div>
+
+                    <form id="identity-form" onsubmit="saveIdentity(event)" class="space-y-5">
+                        <fieldset>
+                            <legend class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3">Pilih Avatar</legend>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <label class="avatar-option cursor-pointer">
+                                    <input class="sr-only" type="radio" name="avatar" value="assets/avtar1.jpeg" required>
+                                    <span class="avatar-option-card flex h-full flex-col items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/70 p-3 transition-all hover:border-slate-500">
+                                        <img src="assets/avtar1.jpeg" alt="Avatar 1" class="w-16 h-16 rounded-full object-cover bg-white">
+                                    </span>
+                                </label>
+                                <label class="avatar-option cursor-pointer">
+                                    <input class="sr-only" type="radio" name="avatar" value="assets/avatar2.jpeg" required>
+                                    <span class="avatar-option-card flex h-full flex-col items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/70 p-3 transition-all hover:border-slate-500">
+                                        <img src="assets/avatar2.jpeg" alt="Avatar 2" class="w-16 h-16 rounded-full object-cover bg-white">
+                                    </span>
+                                </label>
+                                <label class="avatar-option cursor-pointer">
+                                    <input class="sr-only" type="radio" name="avatar" value="assets/avatar3.jpeg" required>
+                                    <span class="avatar-option-card flex h-full flex-col items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/70 p-3 transition-all hover:border-slate-500">
+                                        <img src="assets/avatar3.jpeg" alt="Avatar 3" class="w-16 h-16 rounded-full object-cover bg-white">
+                                    </span>
+                                </label>
+                                <label class="avatar-option cursor-pointer">
+                                    <input class="sr-only" type="radio" name="avatar" value="assets/avatar4.jpeg" required>
+                                    <span class="avatar-option-card flex h-full flex-col items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/70 p-3 transition-all hover:border-slate-500">
+                                        <img src="assets/avatar4.jpeg" alt="Avatar 4" class="w-16 h-16 rounded-full object-cover bg-white">
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nama Lengkap Murid</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                                <input type="text" id="input-nama" required placeholder="Masukkan nama lengkap Anda" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-3 pl-11 pr-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Kelas / Fase</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-graduation-cap absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                                    <select id="input-kelas" required class="w-full appearance-none bg-slate-900/90 border border-slate-700 rounded-xl py-3 pl-11 pr-4 text-slate-100 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-sm">
+                                        <option value="" disabled selected>Pilih kelas</option>
+                                        <option value="Kelas X1 / Fase E1">Kelas X1 / Fase E1</option>
+                                        <option value="Kelas X2 / Fase E2">Kelas X2 / Fase E2</option>
+                                        <option value="Kelas X3 / Fase E3">Kelas X3 / Fase E3</option>
+                                        <option value="Kelas X4 / Fase E4">Kelas X4 / Fase E4</option>
+                                        <option value="Kelas X5 / Fase E5">Kelas X5 / Fase E5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Asal Sekolah</label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-school absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                                    <input type="text" id="input-sekolah" required placeholder="Nama SMA Anda" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl py-3 pl-11 pr-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="form-error" class="hidden p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium text-center">
+                            Mohon lengkapi semua data identitas terlebih dahulu!
+                        </div>
+
+                        <div class="pt-4 flex items-center justify-between">
+                            <button type="button" onclick="goToSlide(1)" class="px-5 py-3 rounded-xl glass-card text-slate-400 hover:text-white transition-all text-sm">
+                                <i class="fa-solid fa-arrow-left mr-2"></i> Kembali
+                            </button>
+                            <button type="submit" class="px-8 py-3.5 rounded-xl gradient-bg font-bold text-white shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2">
+                                <span>Simpan & Lanjut</span>
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: Tujuan Pembelajaran & Gambaran Umum -->
+            <section id="slide-3" class="slide-card content-slide-background hidden space-y-6 py-6">
+                <div class="glass-panel rounded-3xl p-6 md:p-10 border border-slate-800 shadow-2xl space-y-8">
+                    <div class="border-b border-slate-800 pb-6">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Tahap 01 • Orientasi Pembelajaran</span>
+                            <h2 class="font-display text-2xl md:text-3xl font-bold text-white mt-1">Tujuan Pembelajaran & Gambaran Materi</h2>
+                        </div>
+                    </div>
+
+                    <!-- Capaian & Tujuan Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Capaian Pembelajaran -->
+                        <div class="cp-card lg:col-span-5 glass-card rounded-2xl p-6 border border-emerald-500/20 bg-emerald-950/20 flex flex-col justify-between">
+                            <i class="cp-watermark fa-solid fa-users" aria-hidden="true"></i>
+                            <div class="space-y-4">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl">
+                                    <i class="fa-solid fa-award"></i>
+                                </div>
+                                <h3 class="font-display font-bold text-lg text-emerald-300 flex items-center gap-2"><i class="fa-solid fa-book-open text-sm" aria-hidden="true"></i> Capaian Pembelajaran (CP)</h3>
+                                <p class="text-slate-300 text-sm leading-relaxed">
+                                    Peserta didik mampu menganalisis dinamika kependudukan Indonesia meliputi jumlah, komposisi, persebaran, serta permasalahan kependudukan, dan mengevaluasi upaya-upaya yang dapat dilakukan untuk mengatasi dampak fenomena demografi tersebut dalam kerangka pembangunan berkelanjutan.
+                                </p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-emerald-800/40 text-xs text-emerald-400 font-medium">
+                                <i class="fa-solid fa-circle-check mr-1"></i> Terintegrasi Visi Indonesia Emas 2045
+                            </div>
+                        </div>
+
+                        <!-- 5 Tujuan Pembelajaran Specific -->
+                        <div class="lg:col-span-7 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tujuan Pembelajaran Khusus:</h3>
+                            
+                            <div class="learning-objective p-3.5 rounded-xl border border-slate-700/70 flex items-start gap-3">
+                                <div class="objective-number rounded-lg text-emerald-200 flex items-center justify-center font-bold shrink-0">1</div>
+                                <div class="objective-icon rounded-lg text-sky-300 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
+                                <p class="text-xs text-slate-200 leading-normal"><strong class="text-white">Menjelaskan Indikator Demografi:</strong> Memahami pengertian dan indikator utama fenomena demografi Indonesia berdasarkan data BPS terbaru.</p>
+                            </div>
+
+                            <div class="learning-objective p-3.5 rounded-xl border border-slate-700/70 flex items-start gap-3">
+                                <div class="objective-number rounded-lg text-emerald-200 flex items-center justify-center font-bold shrink-0">2</div>
+                                <div class="objective-icon rounded-lg text-rose-300 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></div>
+                                <p class="text-xs text-slate-200 leading-normal"><strong class="text-white">Mengidentifikasi Dampak Utama:</strong> Mengurai 4 fenomena kunci: ledakan penduduk, urbanisasi, bonus demografi, & ageing population.</p>
+                            </div>
+
+                            <div class="learning-objective p-3.5 rounded-xl border border-slate-700/70 flex items-start gap-3">
+                                <div class="objective-number rounded-lg text-emerald-200 flex items-center justify-center font-bold shrink-0">3</div>
+                                <div class="objective-icon rounded-lg text-amber-300 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div>
+                                <p class="text-xs text-slate-200 leading-normal"><strong class="text-white">Analisis Sebab-Akibat:</strong> Mengaitkan dinamika kependudukan dengan ruang sosial, ekonomi, dan daya dukung lingkungan.</p>
+                            </div>
+
+                            <div class="learning-objective p-3.5 rounded-xl border border-slate-700/70 flex items-start gap-3">
+                                <div class="objective-number rounded-lg text-emerald-200 flex items-center justify-center font-bold shrink-0">4</div>
+                                <div class="objective-icon rounded-lg text-violet-300 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i></div>
+                                <p class="text-xs text-slate-200 leading-normal"><strong class="text-white">Merumuskan Solusi Kebijakan:</strong> Evaluasi kebijakan RPJPN 2025-2045 seperti program KB, vokasi, IKN, dan jaminan lansia.</p>
+                            </div>
+
+                            <div class="learning-objective p-3.5 rounded-xl border border-slate-700/70 flex items-start gap-3">
+                                <div class="objective-number rounded-lg text-emerald-200 flex items-center justify-center font-bold shrink-0">5</div>
+                                <div class="objective-icon rounded-lg text-sky-300 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i></div>
+                                <p class="text-xs text-slate-200 leading-normal"><strong class="text-white">Kesadaran Keruangan:</strong> Menumbuhkan sikap peduli dan kritis terhadap isu spasial kependudukan lokal & nasional.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow Map -->
+                    <div class="expedition-route p-5 rounded-2xl border border-sky-500/20">
+                        <i class="route-watermark fa-solid fa-earth-asia" aria-hidden="true"></i>
+                        <span class="text-xs font-bold text-slate-300 uppercase tracking-wider block mb-3">Peta Konsep Alur Belajar & Ekspedisi:</span>
+                        <div class="flow-steps grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                            <div class="flow-step p-3 rounded-xl text-emerald-300 text-xs">
+                                <i class="flow-step-icon fa-solid fa-chart-pie mx-auto mb-2 flex items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-300 text-lg" aria-hidden="true"></i>
+                                <span class="font-semibold text-slate-200 block">1. Pos Data</span>
+                                <span class="text-[10px] text-slate-400">Analisis Data BPS & SUPAS</span>
+                                <div class="flow-step-progress" aria-label="Tahap 1 dari 4"><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="flow-step p-3 rounded-xl text-sky-300 text-xs">
+                                <i class="flow-step-icon fa-solid fa-magnifying-glass-chart mx-auto mb-2 flex items-center justify-center rounded-xl bg-sky-500/15 text-sky-300 text-lg" aria-hidden="true"></i>
+                                <span class="font-semibold text-slate-200 block">2. Pos Investigasi</span>
+                                <span class="text-[10px] text-slate-400">Jodohkan Kasus & Solusi</span>
+                                <div class="flow-step-progress" aria-label="Tahap 2 dari 4"><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="flow-step p-3 rounded-xl text-amber-300 text-xs">
+                                <i class="flow-step-icon fa-solid fa-landmark mx-auto mb-2 flex items-center justify-center rounded-xl bg-amber-500/15 text-amber-300 text-lg" aria-hidden="true"></i>
+                                <span class="font-semibold text-slate-200 block">3. Sidang Kabinet</span>
+                                <span class="text-[10px] text-slate-400">Simulasi Alokasi Anggaran</span>
+                                <div class="flow-step-progress" aria-label="Tahap 3 dari 4"><span></span><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="flow-step p-3 rounded-xl text-violet-300 text-xs">
+                                <i class="flow-step-icon fa-solid fa-award mx-auto mb-2 flex items-center justify-center rounded-xl bg-violet-500/15 text-violet-300 text-lg" aria-hidden="true"></i>
+                                <span class="font-semibold text-slate-200 block">4. Kelulusan</span>
+                                <span class="text-[10px] text-slate-400">Sertifikat Duta 2045</span>
+                                <div class="flow-step-progress" aria-label="Tahap 4 dari 4"><span></span><span></span><span></span><span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <button onclick="goToSlide(2)" class="px-5 py-3 rounded-xl glass-card text-slate-400 hover:text-white transition-all text-sm">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> Identitas
+                        </button>
+                        <button onclick="goToSlide(4)" class="px-8 py-3.5 rounded-xl gradient-bg font-bold text-white shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2">
+                            <span>Eksplorasi Uraian Materi</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Uraian Materi Interaktif -->
+            <section id="slide-4" class="slide-card content-slide-background hidden space-y-6 py-6">
+                <div class="glass-panel rounded-3xl p-6 md:p-10 border border-slate-800 shadow-2xl space-y-6">
+                    <div class="urbanization-heading flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Tahap 02 • Eksplorasi Konsep</span>
+                            <h2 class="font-display text-2xl md:text-3xl font-bold text-white mt-1">Uraian Materi Interaktif Fenomena Demografi</h2>
+                        </div>
+                    </div>
+
+                    <!-- Tab Buttons -->
+                    <div class="urbanization-tabs flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800">
+                        <button onclick="switchTab('tab-1')" id="btn-tab-1" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-500 text-white shadow-lg shadow-emerald-600/20">
+                            <i class="fa-solid fa-users mr-1.5"></i> 1. Kepadatan & Urbanisasi
+                        </button>
+                        <button onclick="switchTab('tab-2')" id="btn-tab-2" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-slate-800 text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-chart-line mr-1.5"></i> 2. Bonus Demografi
+                        </button>
+                        <button onclick="switchTab('tab-3')" id="btn-tab-3" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-slate-800 text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-user-clock mr-1.5"></i> 3. Ageing Population
+                        </button>
+                        <button onclick="switchTab('tab-4')" id="btn-tab-4" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-slate-800 text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-shield-halved mr-1.5"></i> 4. Solusi RPJPN 2025-2045
+                        </button>
+                    </div>
+
+                    <!-- TAB CONTENT 1: Kepadatan & Urbanisasi -->
+                    <div id="tab-1" class="tab-content space-y-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                            <div class="urban-stat-card glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                                <div class="text-emerald-400 text-2xl font-black font-display"><span class="count-up" data-count-to="284.67" data-decimals="2" data-suffix=" Juta">0</span></div>
+                                <h4 class="font-bold text-sm text-slate-200">Jumlah Penduduk Indonesia (SUPAS 2025)</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Indonesia menempati urutan ke-4 dunia. Laju pertumbuhan melambat ke ~1,08% per tahun, namun konsentrasi beban keruangan masih bertumpu di Pulau Jawa (>50% penduduk di 7% luas lahan).
+                                </p>
+                            </div>
+
+                            <div class="urban-stat-card glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                                <div class="text-sky-400 text-2xl font-black font-display"><span class="count-up" data-count-to="16165" data-decimals="0" data-suffix=" jiwa/km²">0</span></div>
+                                <h4 class="font-bold text-sm text-slate-200">Kepadatan DKI Jakarta vs Daerah Lain</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Bandingkan DKI Jakarta (16.165 jiwa/km²) dengan Kalimantan Barat (hanya 39 jiwa/km²). Ketimpangan ini memicu alih fungsi lahan dan kemacetan ekstrem.
+                                </p>
+                            </div>
+
+                            <div class="urban-stat-card glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                                <div class="text-amber-400 text-2xl font-black font-display"><span class="count-up" data-count-to="66.6" data-decimals="1" data-suffix="% Perkotaan">0</span></div>
+                                <h4 class="font-bold text-sm text-slate-200">Proyeksi Urbanisasi 2035</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">
+                                    Arus ke Jabodetabek memunculkan fenomena pekerja ulang-alik (commuter) & kantong kemiskinan perkotaan (7,80 juta jiwa miskin kota di Pulau Jawa pada 2024).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="urban-map-panel glass-card rounded-2xl border border-slate-700 p-4 md:p-5">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">Peta Skematis Persebaran Kepadatan</h4>
+                                    <p class="text-[11px] text-slate-400">Kontras kepadatan penduduk antarpulau dan wilayah</p>
+                                </div>
+                                <span class="text-[10px] uppercase tracking-wider text-slate-500">Skema, bukan batas administratif</span>
+                            </div>
+                            <div class="relative mx-auto w-full max-w-4xl overflow-hidden rounded-lg">
+                                <img src="assets/peta.jpeg" alt="Peta skematis persebaran penduduk Indonesia" class="block w-full h-auto">
+                                <span class="density-map-location-marker density-map-jakarta" role="img" aria-label="DKI Jakarta"></span>
+                                <span class="density-map-location-marker density-map-kalbar" role="img" aria-label="Kalimantan Barat"></span>
+                            </div>
+                            <div class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-[11px] text-slate-300">
+                                <span class="inline-flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>Jawa: lebih dari 50% penduduk</span>
+                                <span class="inline-flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>Kalimantan Barat: 39 jiwa/km²</span>
+                            </div>
+                        </div>
+
+                        <!-- Data Table interactive -->
+                        <div class="urban-table-panel bg-slate-900/80 rounded-2xl border border-slate-800 p-4 overflow-x-auto">
+                            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Tabel Perbandingan Kepadatan Penduduk Provinsi (BPS 2024)</h4>
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-800 text-slate-400 uppercase font-bold">
+                                    <tr>
+                                        <th class="p-2.5 rounded-l-lg">Provinsi</th>
+                                        <th class="p-2.5">Jumlah Penduduk (Ribu)</th>
+                                        <th class="p-2.5 rounded-r-lg">Kepadatan (Jiwa/km²)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="density-table-body" class="divide-y divide-slate-800">
+                                    <tr class="urban-table-row data-highlight hover:bg-slate-800/40">
+                                        <td class="p-2.5 font-semibold text-emerald-400">DKI Jakarta</td>
+                                        <td class="p-2.5">10.684,9</td>
+                                        <td class="p-2.5 font-bold text-emerald-400">16.165 (Tertinggi)</td>
+                                    </tr>
+                                    <tr class="urban-table-row hover:bg-slate-800/40">
+                                        <td class="p-2.5">Jawa Barat</td>
+                                        <td class="p-2.5">50.345,2</td>
+                                        <td class="p-2.5">1.359</td>
+                                    </tr>
+                                    <tr class="urban-table-row hover:bg-slate-800/40">
+                                        <td class="p-2.5">Jawa Tengah</td>
+                                        <td class="p-2.5">37.892,3</td>
+                                        <td class="p-2.5">1.104</td>
+                                    </tr>
+                                    <tr class="urban-table-row data-highlight hover:bg-slate-800/40">
+                                        <td class="p-2.5">Kalimantan Barat</td>
+                                        <td class="p-2.5">5.695,5</td>
+                                        <td class="p-2.5 text-sky-400 font-semibold">39 (Rendah)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="urban-progress-panel expedition-position-panel rounded-2xl p-4" aria-label="Posisi siswa dalam ekspedisi">
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <div>
+                                    <p class="expedition-position-name text-xs font-bold text-white">Posisi ekspedisi siswa</p>
+                                    <p class="expedition-position-stage text-[11px] text-slate-400">Pos Data · Analisis kepadatan & urbanisasi</p>
+                                </div>
+                                <span class="expedition-position-count text-xs font-bold text-emerald-300">1 dari 4 pos</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-800 overflow-hidden" role="progressbar" aria-label="Progress ekspedisi" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1">
+                                <div class="expedition-progress-fill position-progress-fill h-full w-1/4 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style="width: 25%"></div>
+                            </div>
+                            <div class="grid grid-cols-4 mt-2 text-[10px] text-slate-500">
+                                <span data-expedition-milestone="1" class="text-emerald-300 font-semibold">1. Pos Data</span>
+                                <span data-expedition-milestone="2" class="text-center">2. Investigasi</span>
+                                <span data-expedition-milestone="3" class="text-center">3. Sidang</span>
+                                <span data-expedition-milestone="4" class="text-right">4. Kelulusan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB CONTENT 2: Bonus Demografi -->
+                    <div id="tab-2" class="tab-content hidden space-y-6">
+                        <div class="glass-card p-6 rounded-2xl border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                            <div class="md:col-span-5 space-y-3">
+                                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">Rasio Ketergantungan &lt; 50%</span>
+                                <h3 class="font-display text-xl font-bold text-white">Puncak Bonus Demografi (Dekade 2030-an)</h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Bonus demografi terjadi ketika proporsi penduduk usia produktif (15-64 tahun) mencapai ~68,95% dengan rasio ketergantungan hanya <strong class="text-emerald-400">45,02%</strong> pada tahun 2025. Artinya, setiap 100 usia produktif hanya menanggung 45 usia non-produktif.
+                                </p>
+                                <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs text-amber-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-base"></i>
+                                    <span><strong>Ancaman Bencana Demografi:</strong> Jika tidak diserap kerja & vokasi, pengangguran usia muda akan melonjak.</span>
+                                </div>
+                            </div>
+                            <div class="population-dashboard md:col-span-7 p-4 md:p-5 rounded-2xl border border-cyan-400/20">
+                                <div class="flex items-start justify-between gap-3 border-b border-slate-700/70 pb-3">
+                                    <div>
+                                        <h3 class="font-display text-sm md:text-base font-bold text-white">Komposisi Penduduk & Dependency Ratio 2025</h3>
+                                        <p class="mt-1 text-[10px] text-slate-400">Struktur usia dan beban tanggungan nasional</p>
+                                    </div>
+                                    <i class="fa-solid fa-chart-pie mt-1 text-cyan-300" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="mt-4 grid grid-cols-1 sm:grid-cols-[minmax(128px,0.8fr)_1.2fr] gap-5 items-center">
+                                    <div class="text-center">
+                                        <div class="relative mx-auto w-40 h-40 max-w-full">
+                                            <svg class="population-donut absolute inset-0 w-full h-full" viewBox="0 0 180 180" role="img" aria-labelledby="dependency-chart-title">
+                                                <title id="dependency-chart-title">Rasio ketergantungan 45,02 persen pada 2025</title>
+                                                <circle class="population-donut-track" cx="90" cy="90" r="66"></circle>
+                                                <circle class="population-donut-value" cx="90" cy="90" r="66"></circle>
+                                            </svg>
+                                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                                <span class="font-display text-3xl font-extrabold text-white">45,02%</span>
+                                                <span class="mt-1 text-[9px] uppercase tracking-wider text-slate-400">Rasio tanggungan</span>
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 text-[10px] text-slate-400">45 dari setiap 100 usia produktif</p>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="mb-1.5 flex items-center justify-between gap-2 text-[11px]">
+                                                <span class="font-semibold text-emerald-300"><i class="fa-solid fa-briefcase mr-1.5"></i>Usia produktif</span>
+                                                <strong class="text-emerald-300">68,95%</strong>
+                                            </div>
+                                            <div class="composition-track"><span class="composition-fill composition-productive"></span></div>
+                                        </div>
+                                        <div>
+                                            <div class="mb-1.5 flex items-center justify-between gap-2 text-[11px]">
+                                                <span class="font-semibold text-orange-300"><i class="fa-solid fa-child-reaching mr-1.5"></i>Usia muda</span>
+                                                <span class="text-[9px] text-slate-500">generasi penerus</span>
+                                            </div>
+                                            <div class="composition-track"><span class="composition-fill composition-youth"></span></div>
+                                        </div>
+                                        <div>
+                                            <div class="mb-1.5 flex items-center justify-between gap-2 text-[11px]">
+                                                <span class="font-semibold text-violet-300"><i class="fa-solid fa-person-cane mr-1.5"></i>Lansia (60+)</span>
+                                                <strong class="text-violet-300">11,97%</strong>
+                                            </div>
+                                            <div class="composition-track"><span class="composition-fill composition-elderly"></span></div>
+                                        </div>
+
+                                        <div class="flex items-end justify-between gap-2 border-t border-slate-700/60 pt-2">
+                                            <p class="max-w-[190px] text-[9px] leading-relaxed text-slate-400">Potensi bonus demografi bergantung pada kualitas dan kesempatan kerja.</p>
+                                            <svg class="worker-illustration h-[72px] w-[62px] shrink-0" viewBox="0 0 80 96" role="img" aria-labelledby="worker-title">
+                                                <title id="worker-title">Ilustrasi pekerja muda Indonesia</title>
+                                                <circle cx="40" cy="48" r="38" fill="#0f2b3e" stroke="#164e63" stroke-width="1.5"></circle>
+                                                <path d="M22 32c1-14 9-21 19-21 12 0 19 8 19 21v4H22z" fill="#f59e0b"></path>
+                                                <path d="M19 32h45v6H19z" rx="3" fill="#fbbf24"></path>
+                                                <path d="M29 41c0-8 5-13 12-13s12 5 12 13v12H29z" fill="#b96f4a"></path>
+                                                <path d="M29 44c3 3 7 4 12 4s9-1 12-4v-8c-3 3-7 4-12 4s-9-1-12-4z" fill="#172554"></path>
+                                                <path d="M17 82c2-18 10-27 24-27s22 9 24 27" fill="#10b981"></path>
+                                                <path d="M29 59l12 9 12-9 8 23H21z" fill="#0f766e"></path>
+                                                <path d="M39 68h3v14h-3z" fill="#a7f3d0"></path>
+                                                <path d="M32 43h2m13 0h2" stroke="#1e293b" stroke-width="2" stroke-linecap="round"></path>
+                                                <path d="M37 50c2 2 5 2 7 0" fill="none" stroke="#7c2d12" stroke-width="1.5" stroke-linecap="round"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expedition-position-panel rounded-2xl p-4" aria-label="Posisi siswa dalam ekspedisi">
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <div>
+                                    <p class="expedition-position-name text-xs font-bold text-white">Posisi ekspedisi siswa</p>
+                                    <p class="expedition-position-stage text-[11px] text-slate-400">Pos Investigasi · Bonus Demografi</p>
+                                </div>
+                                <span class="expedition-position-count text-xs font-bold text-emerald-300">2 dari 4 pos</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-800 overflow-hidden" role="progressbar" aria-label="Progress ekspedisi" aria-valuemin="0" aria-valuemax="4" aria-valuenow="2" aria-valuetext="Pos 2 dari 4">
+                                <div class="position-progress-fill h-full w-1/2 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style="width: 50%"></div>
+                            </div>
+                            <div class="grid grid-cols-4 mt-2 text-[10px] text-slate-500">
+                                <span data-expedition-milestone="1" class="text-emerald-300 font-semibold">1. Pos Data</span>
+                                <span data-expedition-milestone="2" class="text-center text-emerald-300 font-semibold">2. Investigasi</span>
+                                <span data-expedition-milestone="3" class="text-center">3. Sidang</span>
+                                <span data-expedition-milestone="4" class="text-right">4. Kelulusan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB CONTENT 3: Ageing Population -->
+                    <div id="tab-3" class="tab-content hidden space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="ageing-card p-5 md:p-6 rounded-2xl space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="ageing-stat-badge w-11 h-11 rounded-xl text-emerald-300 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-person-cane text-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-[10px] uppercase tracking-wider font-bold text-cyan-300">Ageing Population in Indonesia</p>
+                                        <h3 class="mt-1 font-display text-base md:text-lg font-bold text-white leading-snug">Indonesia Masuk Fase Penuaan Penduduk</h3>
+                                    </div>
+                                </div>
+
+                                <div class="ageing-art-panel rounded-xl relative overflow-hidden min-h-[200px] bg-cover bg-center" style="background-image: linear-gradient(180deg, rgba(15,23,42,0.22), rgba(15,23,42,0.58)), url('assets/lansia2.jpg'); background-position: center; background-size: cover;">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/20 via-slate-900/10 to-slate-950/30"></div>
+                                </div>
+
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="text-xs text-slate-400">Berdasarkan SUPAS 2025 (BPS), proporsi lansia usia 60+ telah melampaui ambang ageing population 10%.</p>
+                                    <div class="ageing-stat-badge rounded-xl px-3 py-2 text-right shrink-0">
+                                        <span class="block text-[9px] uppercase text-emerald-200">Elderly Proportion</span>
+                                        <strong class="font-display text-lg text-emerald-300">11,97%</strong>
+                                    </div>
+                                </div>
+
+                                <div class="ageing-comparison grid grid-cols-2 gap-2 rounded-xl p-3">
+                                    <div class="border-r border-slate-700/70 pr-2">
+                                        <span class="block text-[9px] uppercase text-slate-500">Lansia tertinggi</span>
+                                        <span class="text-xs text-slate-200">DI Yogyakarta</span>
+                                        <strong class="block text-sm text-cyan-300">17,83%</strong>
+                                    </div>
+                                    <div class="pl-1">
+                                        <span class="block text-[9px] uppercase text-slate-500">Lansia terendah</span>
+                                        <span class="text-xs text-slate-200">Papua Tengah</span>
+                                        <strong class="block text-sm text-sky-300">6,71%</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ageing-card p-5 md:p-6 rounded-2xl space-y-4">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <p class="text-[10px] uppercase tracking-wider font-bold text-emerald-300">Potensi bonus demografi kedua</p>
+                                        <h3 class="mt-1 font-display text-lg font-bold text-white">Tantangan & Potensi Lansia</h3>
+                                    </div>
+                                    <i class="fa-solid fa-sparkles text-cyan-300 mt-1" aria-hidden="true"></i>
+                                </div>
+
+                                <div class="ageing-art-panel min-h-[126px] rounded-xl flex items-center justify-between gap-3 px-4 overflow-hidden relative">
+                                    <div class="absolute inset-0 bg-cover bg-no-repeat opacity-95" style="background-image: url('assets/lansiaaktif.jpg'); background-position: 50% 8%; background-size: cover;"></div>
+                                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/55 to-slate-950/15"></div>
+                                    <div class="relative z-10 max-w-[190px]">
+                                        <p class="font-semibold text-sm text-white">Aktif di setiap usia</p>
+                                        <p class="mt-1 text-[10px] leading-relaxed text-slate-200">Lansia sehat tetap produktif, mandiri, dan terhubung.</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2.5">
+                                    <div class="ageing-challenge rounded-xl p-3 flex items-center gap-3">
+                                        <span class="ageing-challenge-icon rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i></span>
+                                        <span class="text-xs text-slate-300 leading-relaxed"><strong class="block text-rose-300">Biaya Kesehatan</strong>Peningkatan biaya layanan untuk penyakit tidak menular.</span>
+                                    </div>
+                                    <div class="ageing-challenge rounded-xl p-3 flex items-center gap-3">
+                                        <span class="ageing-challenge-icon rounded-lg bg-orange-500/10 text-orange-300 flex items-center justify-center"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+                                        <span class="text-xs text-slate-300 leading-relaxed"><strong class="block text-orange-200">Jaminan Sosial</strong>Beban sistem perlindungan sosial dan dana pensiun nasional.</span>
+                                    </div>
+                                    <div class="ageing-challenge rounded-xl p-3 flex items-center gap-3">
+                                        <span class="ageing-challenge-icon rounded-lg bg-emerald-500/10 text-emerald-300 flex items-center justify-center"><i class="fa-solid fa-star" aria-hidden="true"></i></span>
+                                        <span class="text-xs text-slate-300 leading-relaxed"><strong class="block text-emerald-300">Produktif & Mandiri</strong>Pemberdayaan lansia sehat agar tetap aktif dan mandiri (UU No. 13/1998).</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expedition-position-panel rounded-2xl p-4" aria-label="Posisi siswa dalam ekspedisi">
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <div>
+                                    <p class="expedition-position-name text-xs font-bold text-white">Posisi ekspedisi siswa</p>
+                                    <p class="expedition-position-stage text-[11px] text-slate-400">Sidang Kabinet · Ageing Population</p>
+                                </div>
+                                <span class="expedition-position-count text-xs font-bold text-emerald-300">3 dari 4 pos</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-800 overflow-hidden" role="progressbar" aria-label="Progress ekspedisi" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3" aria-valuetext="Pos 3 dari 4">
+                                <div class="position-progress-fill h-full w-3/4 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style="width: 75%"></div>
+                            </div>
+                            <div class="grid grid-cols-4 mt-2 text-[10px] text-slate-500">
+                                <span data-expedition-milestone="1" class="text-emerald-300 font-semibold">1. Pos Data</span>
+                                <span data-expedition-milestone="2" class="text-center text-emerald-300 font-semibold">2. Investigasi</span>
+                                <span data-expedition-milestone="3" class="text-center text-emerald-300 font-semibold">3. Sidang</span>
+                                <span data-expedition-milestone="4" class="text-right">4. Kelulusan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB CONTENT 4: Solusi RPJPN 2025-2045 -->
+                    <div id="tab-4" class="tab-content hidden space-y-4">
+                        <div class="w-full overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 shadow-lg shadow-slate-950/20">
+                            <img src="assets/pilares.jpg" alt="Pilar kebijakan demografi RPJPN 2025-2045" class="block w-full h-auto object-contain mx-auto rounded-2xl">
+                        </div>
+                        <div class="expedition-position-panel rounded-2xl p-4" aria-label="Posisi siswa dalam ekspedisi">
+                            <div class="flex items-center justify-between gap-3 mb-3">
+                                <div>
+                                    <p class="expedition-position-name text-xs font-bold text-white">Posisi ekspedisi siswa</p>
+                                    <p class="expedition-position-stage text-[11px] text-slate-400">Kelulusan · Solusi RPJPN 2025-2045</p>
+                                </div>
+                                <span class="expedition-position-count text-xs font-bold text-emerald-300">4 dari 4 pos</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-800 overflow-hidden" role="progressbar" aria-label="Progress ekspedisi" aria-valuemin="0" aria-valuemax="4" aria-valuenow="4" aria-valuetext="Pos 4 dari 4">
+                                <div class="position-progress-fill h-full w-full rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style="width: 100%"></div>
+                            </div>
+                            <div class="grid grid-cols-4 mt-2 text-[10px] text-slate-500">
+                                <span data-expedition-milestone="1" class="text-emerald-300 font-semibold">1. Pos Data</span>
+                                <span data-expedition-milestone="2" class="text-center text-emerald-300 font-semibold">2. Investigasi</span>
+                                <span data-expedition-milestone="3" class="text-center text-emerald-300 font-semibold">3. Sidang</span>
+                                <span data-expedition-milestone="4" class="text-right text-emerald-300 font-semibold">4. Kelulusan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-800">
+                        <button onclick="goToSlide(3)" class="px-5 py-3 rounded-xl glass-card text-slate-400 hover:text-white transition-all text-sm">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> Tujuan Pembelajaran
+                        </button>
+                        <button onclick="goToSlide(5)" class="px-8 py-3.5 rounded-xl gradient-bg font-bold text-white shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2">
+                            <span>Masuk Arena Game Edukasi</span>
+                            <i class="fa-solid fa-gamepad text-base"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Game Edukasi Interaktif (3 Babak) -->
+            <section id="slide-5" class="slide-card content-slide-background hidden space-y-6 py-6">
+                <div class="glass-panel rounded-3xl p-3 md:p-5 border border-slate-800 shadow-2xl">
+                    <div id="expedition-map" class="expedition-map-shell" data-unlocked="1">
+                        <img src="assets/peta2.jpg" alt="Peta Ekspedisi Demografi Nusantara dengan empat posko" class="expedition-map-image">
+                        <div class="expedition-map-topbar">
+                            <div class="expedition-map-player">
+                                <img id="map-player-avatar" src="assets/avtar1.jpeg" alt="Avatar peserta ekspedisi" class="h-8 w-8 rounded-full border border-white bg-white object-cover">
+                                <span id="map-player-name" class="max-w-24 truncate text-[10px] md:text-xs font-semibold text-white">Peneliti Muda</span>
+                                <span id="live-total-score" class="border-l border-white/20 pl-2 text-xs md:text-sm font-black text-emerald-300">0 / 100</span>
+                            </div>
+                        </div>
+                        <img id="expedition-player-marker" class="expedition-player-marker" src="assets/avtar1.jpeg" alt="Posisi pemain di Posko 1" aria-hidden="true">
+
+                        <svg class="expedition-map-routes" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+                            <path class="route-glow route-1" d="M180 297 C198 302 207 315 222 322 C241 333 248 350 269 359 C294 370 306 379 330 386 C350 393 366 397 390 392"></path>
+                            <path class="route-glow route-2" d="M390 392 C418 385 431 371 448 359 C469 344 475 322 493 308 C510 294 524 276 535 256 C547 235 557 216 575 203 C594 190 611 185 630 179"></path>
+                            <path class="route-glow route-3" d="M630 179 C648 185 662 194 675 205 C693 220 704 241 721 249 C743 259 755 269 774 275 C799 283 819 278 860 263"></path>
+                        </svg>
+
+                        <button type="button" class="expedition-stop stop-1" data-stop="1" onclick="handleExpeditionStop(1)" aria-label="Posko 1, Titik Start">
+                            <span class="expedition-stop-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </button>
+                        <button type="button" class="expedition-stop stop-2" data-stop="2" onclick="handleExpeditionStop(2)" aria-label="Posko 2, Pos Data" disabled>
+                            <span class="expedition-stop-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </button>
+                        <button type="button" class="expedition-stop stop-3" data-stop="3" onclick="handleExpeditionStop(3)" aria-label="Posko 3, Pos Investigasi" disabled>
+                            <span class="expedition-stop-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </button>
+                        <button type="button" class="expedition-stop stop-4" data-stop="4" onclick="handleExpeditionStop(4)" aria-label="Posko 4, Sidang Kabinet" disabled>
+                            <span class="expedition-stop-check" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+                        </button>
+
+                        <div id="expedition-finish-card" class="expedition-finish-card hidden">
+                            <i class="fa-solid fa-flag-checkered text-2xl text-emerald-300" aria-hidden="true"></i>
+                            <div>
+                                <strong class="block text-sm text-white">Ekspedisi selesai</strong>
+                                <span class="text-xs text-slate-300">Seluruh posko telah dituntaskan.</span>
+                            </div>
+                            <button type="button" onclick="goToSlide(6)" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-slate-950">Lihat Sertifikat</button>
+                        </div>
+                    </div>
+                </div>
+
+                    <div id="expedition-briefing-modal" class="expedition-modal hidden" role="dialog" aria-modal="true" aria-labelledby="briefing-title">
+                        <div class="expedition-modal-backdrop" onclick="closeExpeditionBriefing()"></div>
+                        <div class="expedition-briefing-card">
+                            <h2 id="briefing-title" class="sr-only">Misi dan petunjuk Ekspedisi Demografi Nusantara</h2>
+                            <img src="assets/chat.jpeg" alt="Misi dan petunjuk Ekspedisi Demografi Nusantara" class="briefing-image">
+                            <button type="button" onclick="startExpedition()" class="briefing-confirm">
+                                <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Mengerti
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="expedition-activity-modal" class="expedition-modal hidden" role="dialog" aria-modal="true" aria-labelledby="activity-title">
+                        <div class="expedition-modal-backdrop" onclick="closeExpeditionActivity()"></div>
+                        <div class="expedition-activity-window">
+                            <div class="expedition-activity-header">
+                                <div>
+                                    <span id="activity-stage-label" class="text-[10px] uppercase font-bold tracking-wider text-emerald-300">Posko 2</span>
+                                    <h2 id="activity-title" class="font-display text-lg font-bold text-white">Pos Data</h2>
+                                </div>
+                                <button type="button" class="expedition-modal-close" onclick="closeExpeditionActivity()" aria-label="Kembali ke peta"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+                            </div>
+                            <div class="expedition-activity-content">
+                    
+                    <!-- Game Header & Pos Selector -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Tahap 03 • Arena Permainan Game Edukasi</span>
+                            <h2 class="font-display text-2xl md:text-3xl font-bold text-white mt-1">Ekspedisi Demografi Nusantara</h2>
+                        </div>
+
+                        <!-- Mini Score Tracker -->
+                        <div class="flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-2xl border border-slate-700 text-xs">
+                            <div class="text-slate-400">Skor Terakumulasi:</div>
+                            <div id="modal-total-score" class="text-lg font-black font-display text-emerald-400">0 / 100</div>
+                        </div>
+                    </div>
+
+                    <!-- Game Pos Progress Tabs -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div id="game-tab-1" class="p-3 rounded-xl border text-center transition-all bg-emerald-500/20 border-emerald-500 text-emerald-300">
+                            <span class="text-[10px] uppercase font-bold tracking-wider block text-slate-400">Babak 1 (Bobot 30%)</span>
+                            <span class="text-xs font-extrabold block">Pos Data (Kuis)</span>
+                        </div>
+                        <div id="game-tab-2" class="p-3 rounded-xl border text-center transition-all bg-slate-900 border-slate-800 text-slate-500">
+                            <span class="text-[10px] uppercase font-bold tracking-wider block text-slate-400">Babak 2 (Bobot 30%)</span>
+                            <span class="text-xs font-extrabold block">Pos Investigasi</span>
+                        </div>
+                        <div id="game-tab-3" class="p-3 rounded-xl border text-center transition-all bg-slate-900 border-slate-800 text-slate-500">
+                            <span class="text-[10px] uppercase font-bold tracking-wider block text-slate-400">Babak 3 (Bobot 40%)</span>
+                            <span class="text-xs font-extrabold block">Sidang Kabinet</span>
+                        </div>
+                    </div>
+
+                    <!-- BABAK 1: POS DATA (KUIS BERJENJANG - 6 SOAL) -->
+                    <div id="pos-1-container" class="space-y-6">
+                        <div class="flex items-center justify-between text-xs text-slate-400">
+                            <span>Soal <span id="quiz-num" class="text-white font-bold">1</span> dari 6</span>
+                            <div class="w-48 bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="quiz-progress" class="bg-emerald-500 h-full w-1/6 transition-all duration-300"></div>
+                            </div>
+                        </div>
+
+                        <!-- Question Card -->
+                        <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-5">
+                            <h3 id="quiz-question" class="font-display text-lg font-bold text-white leading-snug">
+                                Loading soal...
+                            </h3>
+
+                            <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <!-- Options rendered via JS -->
+                            </div>
+
+                            <!-- Feedback Message -->
+                            <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs leading-relaxed">
+                                <!-- Feedback text -->
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button id="btn-next-quiz" onclick="nextQuizQuestion()" disabled class="px-6 py-3 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed transition-all flex items-center gap-2">
+                                <span>Soal Berikutnya</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BABAK 2: POS INVESTIGASI (MENJODOHKAN - 5 PASANG) -->
+                    <div id="pos-2-container" class="hidden space-y-6">
+                        <div class="p-4 rounded-xl bg-sky-950/30 border border-sky-500/20 text-xs text-sky-200 flex items-center gap-3">
+                            <i class="fa-solid fa-circle-info text-sky-400 text-base"></i>
+                            <span>Klik 1 Kartu Kasus (Kiri) lalu klik 1 Kartu Solusi yang Sesuai (Kanan). Pasangan benar akan berwarna hijau & terkunci!</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Left Column: Kasus -->
+                            <div class="space-y-3">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kartu Kasus Permasalahan</h4>
+                                <div id="match-cases" class="space-y-2.5">
+                                    <!-- Rendered via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Solusi -->
+                            <div class="space-y-3">
+                                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Kartu Solusi Kebijakan</h4>
+                                <div id="match-solutions" class="space-y-2.5">
+                                    <!-- Rendered via JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="match-summary" class="hidden p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-medium text-center">
+                            Selamat! Seluruh 5 pasangan kasus dan solusi berhasil tersambung dengan benar.
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button id="btn-next-pos2" onclick="finishPos2()" disabled class="px-6 py-3 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed transition-all flex items-center gap-2">
+                                <span>Selesaikan Pos Investigasi</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BABAK 3: SIDANG KABINET (SIMULASI ALOKASI ANGGARAN) -->
+                    <div id="pos-3-container" class="hidden space-y-6">
+                        <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-500/20 text-xs text-amber-200 space-y-1">
+                            <div class="font-bold text-amber-300 flex items-center gap-2">
+                                <i class="fa-solid fa-coins"></i> Simulasi Anggaran Kebijakan (Total Wajib 100 Poin)
+                            </div>
+                            <p>Sebagai Anggota Kabinet Muda, alokasikan anggaran 100 poin ke 4 bidang kebijakan mengacu prioritas RPJPN 2025-2045.</p>
+                        </div>
+
+                        <div class="glass-card p-6 rounded-2xl border border-slate-800 space-y-6">
+                            
+                            <!-- Slider 1 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-slate-200">1. Pemerataan Pembangunan Daerah & Outside Java</span>
+                                    <span id="val-slider-1" class="text-emerald-400 font-mono">25 Poin</span>
+                                </div>
+                                <input type="range" id="slider-1" min="0" max="100" value="25" oninput="updateBudgetSliders()" class="w-full accent-emerald-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+                            </div>
+
+                            <!-- Slider 2 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-slate-200">2. Transportasi & Perumahan Perkotaan</span>
+                                    <span id="val-slider-2" class="text-emerald-400 font-mono">25 Poin</span>
+                                </div>
+                                <input type="range" id="slider-2" min="0" max="100" value="25" oninput="updateBudgetSliders()" class="w-full accent-emerald-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+                            </div>
+
+                            <!-- Slider 3 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-slate-200">3. Pendidikan Vokasi & Pelatihan Kerja SDM</span>
+                                    <span id="val-slider-3" class="text-emerald-400 font-mono">25 Poin</span>
+                                </div>
+                                <input type="range" id="slider-3" min="0" max="100" value="25" oninput="updateBudgetSliders()" class="w-full accent-emerald-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+                            </div>
+
+                            <!-- Slider 4 -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs font-bold">
+                                    <span class="text-slate-200">4. Kesehatan & Jaminan Sosial Lansia</span>
+                                    <span id="val-slider-4" class="text-emerald-400 font-mono">25 Poin</span>
+                                </div>
+                                <input type="range" id="slider-4" min="0" max="100" value="25" oninput="updateBudgetSliders()" class="w-full accent-emerald-500 bg-slate-800 rounded-lg cursor-pointer h-2">
+                            </div>
+
+                            <!-- Total Indicator -->
+                            <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-300">Total Anggaran Dialokasikan:</span>
+                                <span id="budget-total" class="text-xl font-extrabold font-mono text-emerald-400">100 / 100 Poin</span>
+                            </div>
+                        </div>
+
+                        <div id="budget-error" class="hidden p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium text-center">
+                            Total alokasi anggaran harus tepat berjumlah 100 poin sebelum disahkan!
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button onclick="submitCabinetBudget()" class="px-8 py-3.5 rounded-xl gradient-bg font-bold text-white shadow-xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-stamp"></i>
+                                <span>Sahkan Kebijakan & Selesai</span>
+                            </button>
+                        </div>
+                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+            <!-- SLIDE 6: Sertifikat & Nilai Akhir -->
+            <section id="slide-6" class="slide-card content-slide-background hidden space-y-6 py-6">
+                <div class="glass-panel rounded-3xl p-6 md:p-10 border border-slate-800 shadow-2xl space-y-8">
+                    
+                    <div class="text-center space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Tahap 04 • Hasil Kelulusan & Apresiasi</span>
+                        <h2 class="font-display text-3xl font-extrabold text-white">Laporan Hasil Ekspedisi Demografi</h2>
+                    </div>
+
+                    <!-- Certificate Card Printable Area -->
+                    <div id="certificate-node" class="bg-slate-900 rounded-2xl p-6 md:p-10 border-4 border-emerald-500/40 cert-border relative overflow-hidden shadow-2xl text-center space-y-6 max-w-3xl mx-auto">
+                        <div class="absolute -right-16 -top-16 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                        <div class="absolute -left-16 -bottom-16 w-40 h-40 bg-sky-500/10 rounded-full blur-2xl"></div>
+
+                        <!-- Header Logo Certificate -->
+                        <div class="flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-award text-3xl text-emerald-400"></i>
+                            <span class="font-display font-extrabold text-lg text-slate-200 tracking-wider">SERTIFIKAT KELULUSAN EKSPEDISI</span>
+                        </div>
+
+                        <p class="text-xs text-slate-400 uppercase tracking-widest">Diberikan secara resmi kepada Peneliti Muda:</p>
+
+                        <!-- Student Name -->
+                        <div class="space-y-1">
+                            <h3 id="cert-student-name" class="font-display text-2xl md:text-4xl font-extrabold gradient-text">Nama Siswa</h3>
+                            <p id="cert-student-school" class="text-xs text-slate-300 font-medium">Kelas XX • SMA Negeri 1 Indonesia</p>
+                        </div>
+
+                        <p class="text-xs text-slate-300 leading-relaxed max-w-xl mx-auto">
+                            Telah berhasil menyelesaikan rangkaian simulasi pembelajaran interaktif Geografi materi <strong class="text-white">"Solusi Dampak Fenomena Demografi di Indonesia"</strong> dengan rincian capaian nilai sebagai berikut:
+                        </p>
+
+                        <!-- Score Breakdown Grid -->
+                        <div class="grid grid-cols-3 gap-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800 max-w-lg mx-auto">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Pos Data</span>
+                                <span id="cert-score-1" class="text-sm font-bold text-emerald-400">30 / 30</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Pos Investigasi</span>
+                                <span id="cert-score-2" class="text-sm font-bold text-sky-400">30 / 30</span>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Sidang Kabinet</span>
+                                <span id="cert-score-3" class="text-sm font-bold text-amber-400">40 / 40</span>
+                            </div>
+                        </div>
+
+                        <!-- Final Score & Predicate -->
+                        <div class="pt-2">
+                            <div class="text-xs text-slate-400 uppercase tracking-wider font-bold">Nilai Akhir Kependudukan:</div>
+                            <div id="cert-final-score" class="font-display text-5xl font-black text-white my-1">100</div>
+                            <div id="cert-predicate" class="inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-300 font-bold text-xs">
+                                Duta Indonesia Emas 2045
+                            </div>
+                            <p class="mt-2 text-xs text-slate-400">Penyelesaian ekspedisi: <strong id="cert-completion" class="text-emerald-300">100%</strong></p>
+                        </div>
+
+                        <!-- Footer Certificate Seal -->
+                        <div class="pt-6 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 px-4">
+                            <div>Tanggal: <span id="cert-date" class="text-slate-200">27 September 2026</span></div>
+                            <div class="text-emerald-400 font-bold"><i class="fa-solid fa-shield-halved mr-1"></i> Terverifikasi Sistem Geografi</div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+                        <button onclick="downloadCertificate()" class="px-6 py-3.5 rounded-xl gradient-bg font-bold text-white shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Unduh Sertifikat (Gambar JPG/PNG)</span>
+                        </button>
+                        <button onclick="restartGame()" class="px-6 py-3.5 rounded-xl glass-card font-semibold text-slate-300 hover:text-white transition-all text-sm border border-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>Main Lagi</span>
+                        </button>
+                        <button onclick="goToSlide(7)" class="px-6 py-3.5 rounded-xl bg-slate-800 text-slate-200 hover:text-white transition-all text-sm border border-slate-700 flex items-center gap-2">
+                            <span>Biodata Pembuat</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SLIDE 7: Biodata Pembuat -->
+            <section id="slide-7" class="slide-card content-slide-background hidden py-6">
+                <div class="glass-panel rounded-3xl p-8 md:p-12 border border-slate-800 shadow-2xl max-w-3xl mx-auto space-y-8">
+                    
+                    <div class="text-center space-y-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Tahap 05 • Profil Pengembang</span>
+                        <h2 class="font-display text-2xl md:text-3xl font-bold text-white">Biodata Pembuat Media</h2>
+                    </div>
+
+                    <!-- Creator Card Layout -->
+                    <div class="glass-card rounded-2xl p-6 md:p-8 border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        
+                        <!-- Photo Frame / Avatar -->
+                        <div class="md:col-span-4 flex flex-col items-center text-center space-y-3">
+                            <div class="relative w-36 h-36 rounded-2xl p-1 gradient-bg shadow-xl">
+                                <div class="w-full h-full bg-slate-900 rounded-xl overflow-hidden flex items-center justify-center">
+                                    <img src="assets/pasfoto.jpg" alt="Pas foto pembuat media" class="w-full h-full object-cover object-center rounded-xl">
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">Pengembang Utama</span>
+                        </div>
+
+                        <!-- Biodata Details -->
+                        <div class="md:col-span-8 space-y-4">
+                            <div class="space-y-1">
+                                <h3 class="font-display text-2xl font-extrabold text-white">Patma Pansuri</h3>
+                                <p class="text-xs text-emerald-400 font-semibold uppercase tracking-wider">Mahasiswa / Pengembang Media Geografi</p>
+                            </div>
+
+                            <div class="space-y-2.5 pt-3 border-t border-slate-800 text-xs">
+                                <div class="flex items-center gap-3 text-slate-300">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-emerald-400 shrink-0">
+                                        <i class="fa-solid fa-id-badge"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-500 block text-[10px]">NIM</span>
+                                        <span class="font-bold text-slate-200">25045024</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-3 text-slate-300">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-sky-400 shrink-0">
+                                        <i class="fa-solid fa-book-bookmark"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-500 block text-[10px]">Mata Kuliah</span>
+                                        <span class="font-bold text-slate-200">Media Pembelajaran</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mandatory Quote Statement Footer -->
+                    <div class="bg-emerald-950/30 border border-emerald-500/20 p-5 rounded-2xl text-center space-y-2">
+                        <i class="fa-solid fa-quote-left text-emerald-400 text-xl block"></i>
+                        <p class="text-xs md:text-sm text-slate-200 italic leading-relaxed font-medium">
+                            "Media pembelajaran geografi dan literasi TIK berfokus pada pemanfaatan teknologi dalam pembelajaran geografi yang kreatif, inovatif, dan bermakna."
+                        </p>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <button onclick="goToSlide(6)" class="px-5 py-3 rounded-xl glass-card text-slate-400 hover:text-white transition-all text-sm">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> Sertifikat
+                        </button>
+                        <button onclick="goToSlide(1)" class="px-6 py-3 rounded-xl gradient-bg font-bold text-white hover:scale-105 transition-all text-sm">
+                            <i class="fa-solid fa-house mr-2"></i> Kembali ke Beranda
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        /* Global User Data & Score State */
+        let userData = {
+            nama: '',
+            kelas: '',
+            sekolah: '',
+            avatar: ''
+        };
+
+        let currentSlide = 1;
+        let urbanizationSequenceTimers = [];
+        let urbanizationAnimationFrames = [];
+        let expeditionUnlocked = 1;
+        let activeExpeditionStop = null;
+        const completedExpeditionStops = new Set();
+        const matchedPairIds = new Set();
+        const expeditionStorageKey = 'demografi-nusantara-progress-v1';
+
+        let gameScores = {
+            pos1: 0, // max 30
+            pos2: 0, // max 30
+            pos3: 0, // max 40
+            total: 0
+        };
+
+        /* Data Question Babak 1 (Pos Data) */
+        const quizQuestions = [
+            {
+                q: "1. Pengertian bonus demografi ditandai dengan kondisi di mana...",
+                options: [
+                    "Rasio ketergantungan penduduk berada di bawah 50 persen",
+                    "Jumlah lansia melebihi jumlah penduduk usia muda",
+                    "Tingkat kelahiran melonjak melebihi 3 persen per tahun",
+                    "Jumlah migran masuk lebih banyak dari migran keluar"
+                ],
+                correct: 0,
+                explain: "Bonus demografi terjadi saat rasio ketergantungan di bawah 50%, artinya usia produktif (15-64 th) menanggung beban sedikit penduduk non-produktif."
+            },
+            {
+                q: "2. Berdasarkan data Survei Penduduk Antar Sensus (SUPAS) 2025 BPS, persentase penduduk lansia Indonesia mencapai...",
+                options: [
+                    "8,47 persen",
+                    "9,93 persen",
+                    "11,97 persen",
+                    "15,45 persen"
+                ],
+                correct: 2,
+                explain: "Hasil SUPAS 2025 mencatat proporsi lansia mencapai 11,97%, melampaui ambang 10% dan resmi menjadikan Indonesia memasuki fase ageing population."
+            },
+            {
+                q: "3. Provinsi di Indonesia dengan tingkat kepadatan penduduk tertinggi pada tahun 2024 adalah...",
+                options: [
+                    "Jawa Barat",
+                    "DKI Jakarta",
+                    "Jawa Tengah",
+                    "DI Yogyakarta"
+                ],
+                correct: 1,
+                explain: "DKI Jakarta memiliki kepadatan tertinggi mencapai sekitar 16.165 jiwa per km² pada tahun 2024."
+            },
+            {
+                q: "4. Dampak utama dari arus urbanisasi yang tidak terkendali ke wilayah metropolitan adalah...",
+                options: [
+                    "Penurunan angka harapan hidup di pedesaan",
+                    "Kepadatan permukiman dan meningkatnya kemiskinan perkotaan",
+                    "Surplus lapangan kerja di sektor pertanian desa",
+                    "Pemerataan distribusi pendapatan nasional"
+                ],
+                correct: 1,
+                explain: "Urbanisasi masif tanpa pemerataan infrastruktur memicu kumuh perkotaan, kemacetan, dan masalah sosial-ekonomi di kota besar."
+            },
+            {
+                q: "5. Berapa perkiraan rasio ketergantungan (dependency ratio) penduduk Indonesia pada tahun 2025?",
+                options: [
+                    "Sekitar 30 persen",
+                    "Sekitar 45 persen",
+                    "Sekitar 60 persen",
+                    "Sekitar 75 persen"
+                ],
+                correct: 1,
+                explain: "Pada tahun 2025, rasio ketergantungan tercatat sekitar 45,02% (setiap 100 usia produktif menanggung ~45 usia non-produktif)."
+            },
+            {
+                q: "6. Kapan proyeksi puncak bonus demografi Indonesia diperkirakan akan terjadi?",
+                options: [
+                    "Dekade 2010-an",
+                    "Dekade 2020-an",
+                    "Dekade 2030-an",
+                    "Dekade 2050-an"
+                ],
+                correct: 2,
+                explain: "Puncak bonus demografi Indonesia diproyeksikan terjadi pada dekade 2030-an berdasarkan perencanaan RPJPN 2025-2045."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizCorrectCount = 0;
+        let quizSelections = Array(6).fill(null);
+
+        /* Matching Data Babak 2 (Pos Investigasi) */
+        const matchPairsData = [
+            { id: 1, case: "Urbanisasi ke Jabodetabek melonjak, kepadatan kota terlalu tinggi", solution: "Pemerataan pembangunan dan hilirisasi industri di luar Jawa" },
+            { id: 2, case: "Rasio ketergantungan rendah, usia produktif melimpah", solution: "Perluasan lapangan kerja dan pendidikan vokasi" },
+            { id: 3, case: "Proporsi lansia naik menjadi hampir 12 persen", solution: "Penguatan jaminan sosial dan layanan kesehatan lansia" },
+            { id: 4, case: "Angka kelahiran masih tinggi di sejumlah wilayah", solution: "Program Keluarga Berencana (Kemendukbangga)" },
+            { id: 5, case: "Kepadatan penduduk di Jawa jauh di atas rata-rata nasional", solution: "Pengembangan kota baru dan pemerataan penduduk di luar Jawa" }
+        ];
+
+        let selectedCaseId = null;
+        let selectedSolutionId = null;
+        let matchedCount = 0;
+
+        function playBackgroundSound() {
+            const bgAudio = document.getElementById('bg-audio');
+            if (!bgAudio) return;
+            bgAudio.volume = 0.18;
+            bgAudio.play().catch(() => {});
+        }
+
+        function playResultSound(type) {
+            const effect = document.getElementById('effect-audio');
+            if (!effect) return;
+            effect.src = type === 'win' ? 'assets/yes.mp3' : 'assets/kalah.mp3';
+            effect.volume = 0.9;
+            effect.play().catch(() => {});
+        }
+
+        document.addEventListener('pointerdown', playBackgroundSound, { once: true });
+        document.addEventListener('keydown', playBackgroundSound, { once: true });
+
+        /* Navigation Handler */
+        function goToSlide(slideNum) {
+            // Validation: Cannot skip identity slide if empty
+            if (slideNum > 2 && (!userData.nama || !userData.kelas || !userData.sekolah)) {
+                alert("Mohon isi data identitas murid di Slide 2 terlebih dahulu!");
+                goToSlide(2);
+                return;
+            }
+
+            document.querySelectorAll('.slide-card').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`slide-${slideNum}`).classList.remove('hidden');
+            playBackgroundSound();
+
+            // Update Navigation Dots
+            for (let i = 1; i <= 7; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i === slideNum) {
+                    dot.className = "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-blue-950 text-white border border-blue-800 shadow-md";
+                } else {
+                    dot.className = "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all bg-slate-800 text-slate-300 hover:bg-blue-900 hover:text-white";
+                }
+            }
+
+            currentSlide = slideNum;
+            saveExpeditionProgress();
+            if (slideNum === 4) startUrbanizationSequence();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* Save Identity */
+        function saveIdentity(e) {
+            e.preventDefault();
+            const nama = document.getElementById('input-nama').value.trim();
+            const kelas = document.getElementById('input-kelas').value.trim();
+            const sekolah = document.getElementById('input-sekolah').value.trim();
+            const avatar = document.querySelector('input[name="avatar"]:checked')?.value;
+
+            if (!nama || !kelas || !sekolah || !avatar) {
+                document.getElementById('form-error').classList.remove('hidden');
+                return;
+            }
+
+            userData.nama = nama;
+            userData.kelas = kelas;
+            userData.sekolah = sekolah;
+            userData.avatar = avatar;
+
+            saveExpeditionProgress();
+
+            // Update Chip UI
+            document.getElementById('chip-name').innerText = nama;
+            document.getElementById('chip-class').innerText = kelas;
+            document.getElementById('chip-school').innerText = sekolah;
+            const chipAvatar = document.getElementById('chip-avatar');
+            chipAvatar.src = avatar;
+            chipAvatar.alt = `Avatar siswa ${nama}`;
+            document.getElementById('user-chip').classList.remove('hidden');
+            renderExpeditionMap();
+
+            goToSlide(3);
+        }
+
+        function renderExpeditionMap() {
+            const map = document.getElementById('expedition-map');
+            if (!map) return;
+
+            map.dataset.unlocked = expeditionUnlocked;
+            document.getElementById('map-player-avatar').src = userData.avatar || 'assets/avtar1.jpeg';
+            document.getElementById('map-player-name').textContent = userData.nama || 'Peneliti Muda';
+            const playerMarker = document.getElementById('expedition-player-marker');
+            const playerStop = completedExpeditionStops.has(4) ? 4
+                : completedExpeditionStops.has(3) ? 3
+                    : completedExpeditionStops.has(2) ? 2 : 1;
+            const stopPosition = getExpeditionStopPosition(playerStop);
+            map.style.setProperty('--player-x', stopPosition.x);
+            map.style.setProperty('--player-y', stopPosition.y);
+            playerMarker.src = userData.avatar || 'assets/avtar1.jpeg';
+            playerMarker.alt = `Posisi ${userData.nama || 'pemain'} di Posko ${playerStop}`;
+
+            map.querySelectorAll('.expedition-stop').forEach(stop => {
+                const stopNumber = Number(stop.dataset.stop);
+                const isComplete = completedExpeditionStops.has(stopNumber);
+                const isLocked = stopNumber > expeditionUnlocked;
+                const isCurrent = stopNumber === expeditionUnlocked && !isComplete;
+                stop.disabled = isLocked || isComplete;
+                stop.classList.toggle('is-locked', isLocked);
+                stop.classList.toggle('is-complete', isComplete);
+                stop.classList.toggle('is-current', isCurrent);
+                stop.classList.toggle('is-active', stopNumber === activeExpeditionStop);
+                const labels = ['', 'Titik Start', 'Pos Data', 'Pos Investigasi', 'Sidang Kabinet'];
+                const status = isComplete ? 'selesai' : isLocked ? 'terkunci' : 'siap dibuka';
+                stop.setAttribute('aria-label', `Posko ${stopNumber}, ${labels[stopNumber]}, ${status}`);
+            });
+
+            document.getElementById('expedition-finish-card').classList.toggle('hidden', !completedExpeditionStops.has(4));
+        }
+
+        function getExpeditionStopPosition(stopNumber) {
+            const positions = {
+                1: { x: '18%', y: '53%' },
+                2: { x: '39%', y: '70%' },
+                3: { x: '63%', y: '32%' },
+                4: { x: '86%', y: '47%' }
+            };
+            return positions[stopNumber];
+        }
+
+        function saveExpeditionProgress() {
+            const sliders = [1, 2, 3, 4].map(number => document.getElementById(`slider-${number}`)?.value ?? '25');
+            const progress = {
+                userData,
+                expeditionUnlocked,
+                completedStops: Array.from(completedExpeditionStops),
+                gameScores,
+                currentQuizIndex,
+                quizCorrectCount,
+                quizSelections,
+                matchedPairIds: Array.from(matchedPairIds),
+                budgetSliders: sliders
+            };
+            try {
+                localStorage.setItem(expeditionStorageKey, JSON.stringify(progress));
+            } catch (error) {
+                console.warn('Progres ekspedisi tidak dapat disimpan.', error);
+            }
+        }
+
+        function restoreExpeditionProgress() {
+            let progress;
+            try {
+                progress = JSON.parse(localStorage.getItem(expeditionStorageKey) || 'null');
+            } catch (error) {
+                return;
+            }
+            if (!progress || typeof progress !== 'object') return;
+
+            if (progress.userData && typeof progress.userData === 'object') {
+                userData = { ...userData, ...progress.userData };
+                if (userData.nama && userData.kelas && userData.sekolah && userData.avatar) {
+                    document.getElementById('chip-name').textContent = userData.nama;
+                    document.getElementById('chip-class').textContent = userData.kelas;
+                    document.getElementById('chip-school').textContent = userData.sekolah;
+                    const chipAvatar = document.getElementById('chip-avatar');
+                    chipAvatar.src = userData.avatar;
+                    chipAvatar.alt = `Avatar siswa ${userData.nama}`;
+                    document.getElementById('user-chip').classList.remove('hidden');
+                    const avatarInput = document.querySelector(`input[name="avatar"][value="${CSS.escape(userData.avatar)}"]`);
+                    if (avatarInput) avatarInput.checked = true;
+                    document.getElementById('input-nama').value = userData.nama;
+                    document.getElementById('input-kelas').value = userData.kelas;
+                    document.getElementById('input-sekolah').value = userData.sekolah;
+                }
+            }
+
+            expeditionUnlocked = Math.max(1, Math.min(Number(progress.expeditionUnlocked) || 1, 4));
+            if (Array.isArray(progress.completedStops)) {
+                progress.completedStops.forEach(stop => {
+                    if (Number.isInteger(stop) && stop >= 1 && stop <= 4) completedExpeditionStops.add(stop);
+                });
+            }
+            if (progress.gameScores && typeof progress.gameScores === 'object') {
+                gameScores = {
+                    pos1: Number(progress.gameScores.pos1) || 0,
+                    pos2: Number(progress.gameScores.pos2) || 0,
+                    pos3: Number(progress.gameScores.pos3) || 0,
+                    total: Number(progress.gameScores.total) || 0
+                };
+            }
+            currentQuizIndex = Math.max(0, Math.min(Number(progress.currentQuizIndex) || 0, quizQuestions.length - 1));
+            quizCorrectCount = Math.max(0, Math.min(Number(progress.quizCorrectCount) || 0, quizQuestions.length));
+            if (Array.isArray(progress.quizSelections)) {
+                quizSelections = Array.from({ length: quizQuestions.length }, (_, index) => {
+                    const answer = progress.quizSelections[index];
+                    return Number.isInteger(answer) && answer >= 0 && answer < quizQuestions[index].options.length ? answer : null;
+                });
+            }
+            if (Array.isArray(progress.matchedPairIds)) {
+                progress.matchedPairIds.forEach(id => {
+                    if (matchPairsData.some(pair => pair.id === id)) matchedPairIds.add(id);
+                });
+            }
+            if (Array.isArray(progress.budgetSliders)) {
+                progress.budgetSliders.forEach((value, index) => {
+                    const slider = document.getElementById(`slider-${index + 1}`);
+                    if (slider) slider.value = String(Math.max(0, Math.min(Number(value) || 0, 100)));
+                });
+            }
+            matchedCount = matchedPairIds.size;
+        }
+
+        function handleExpeditionStop(stopNumber) {
+            if (stopNumber > expeditionUnlocked || completedExpeditionStops.has(stopNumber)) return;
+
+            if (stopNumber === 1) {
+                activeExpeditionStop = 1;
+                renderExpeditionMap();
+                document.getElementById('expedition-briefing-modal').classList.remove('hidden');
+                return;
+            }
+
+            activeExpeditionStop = stopNumber;
+            renderExpeditionMap();
+            openExpeditionActivity(stopNumber);
+        }
+
+        function startExpedition() {
+            completedExpeditionStops.add(1);
+            expeditionUnlocked = Math.max(expeditionUnlocked, 2);
+            activeExpeditionStop = null;
+            closeExpeditionBriefing();
+            renderExpeditionMap();
+            saveExpeditionProgress();
+        }
+
+        function openExpeditionActivity(stopNumber) {
+            const stages = {
+                2: { label: 'POSKO 2 · BABAK 1', title: 'Pos Data', activeContainer: 'pos-1-container' },
+                3: { label: 'POSKO 3 · BABAK 2', title: 'Pos Investigasi', activeContainer: 'pos-2-container' },
+                4: { label: 'POSKO 4 · BABAK 3', title: 'Sidang Kabinet', activeContainer: 'pos-3-container' }
+            };
+            const stage = stages[stopNumber];
+            if (!stage || stopNumber > expeditionUnlocked) return;
+
+            document.getElementById('activity-stage-label').textContent = stage.label;
+            document.getElementById('activity-title').textContent = stage.title;
+            [1, 2, 3].forEach(tabNumber => {
+                const tab = document.getElementById(`game-tab-${tabNumber}`);
+                const classes = tabNumber < stopNumber - 1
+                    ? 'p-3 rounded-xl border text-center transition-all bg-emerald-950/40 border-emerald-800 text-emerald-400'
+                    : tabNumber === stopNumber - 1
+                        ? 'p-3 rounded-xl border text-center transition-all bg-emerald-500/20 border-emerald-500 text-emerald-300'
+                        : 'p-3 rounded-xl border text-center transition-all bg-slate-900 border-slate-800 text-slate-500';
+                tab.className = classes;
+            });
+            ['pos-1-container', 'pos-2-container', 'pos-3-container'].forEach(containerId => {
+                document.getElementById(containerId).classList.toggle('hidden', containerId !== stage.activeContainer);
+            });
+
+            if (stopNumber === 2) renderQuizQuestion();
+            if (stopNumber === 3) renderMatchingGame();
+            if (stopNumber === 4) updateBudgetSliders();
+
+            document.getElementById('expedition-activity-modal').classList.remove('hidden');
+        }
+
+        function closeExpeditionBriefing() {
+            document.getElementById('expedition-briefing-modal').classList.add('hidden');
+            if (!completedExpeditionStops.has(1)) {
+                activeExpeditionStop = null;
+                renderExpeditionMap();
+            }
+        }
+
+        function closeExpeditionActivity() {
+            document.getElementById('expedition-activity-modal').classList.add('hidden');
+            activeExpeditionStop = null;
+            renderExpeditionMap();
+        }
+
+        function completeExpeditionStop(stopNumber) {
+            completedExpeditionStops.add(stopNumber);
+            expeditionUnlocked = Math.max(expeditionUnlocked, Math.min(stopNumber + 1, 4));
+            activeExpeditionStop = null;
+            renderExpeditionMap();
+            closeExpeditionActivity();
+            saveExpeditionProgress();
+        }
+
+        /* Material Tab Switcher */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-slate-800 text-slate-400 hover:text-white";
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.className = "tab-btn px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all bg-emerald-500 text-white shadow-lg shadow-emerald-600/20";
+            updateExpeditionProgress(tabId);
+            if (tabId === 'tab-1' && currentSlide === 4) startUrbanizationSequence();
+        }
+
+        function updateExpeditionProgress(tabId) {
+            const stages = {
+                'tab-1': { position: 1, label: 'Pos Data · Analisis kepadatan & urbanisasi' },
+                'tab-2': { position: 2, label: 'Pos Investigasi · Bonus demografi' },
+                'tab-3': { position: 3, label: 'Sidang Kabinet · Ageing population' },
+                'tab-4': { position: 4, label: 'Kelulusan · Solusi RPJPN 2025-2045' }
+            };
+            const stage = stages[tabId];
+            if (!stage) return;
+
+            document.querySelectorAll('.expedition-position-panel').forEach(panel => {
+                panel.querySelector('.expedition-position-name').textContent = userData.nama
+                    ? `${userData.nama} · Posisi ekspedisi`
+                    : 'Posisi ekspedisi siswa';
+                panel.querySelector('.expedition-position-stage').textContent = stage.label;
+                panel.querySelector('.expedition-position-count').textContent = `${stage.position} dari 4 pos`;
+
+                const progressBar = panel.querySelector('[role="progressbar"]');
+                progressBar.setAttribute('aria-valuenow', stage.position);
+                progressBar.setAttribute('aria-valuetext', `Pos ${stage.position} dari 4`);
+                panel.querySelector('.position-progress-fill').style.width = `${stage.position * 25}%`;
+
+                panel.querySelectorAll('[data-expedition-milestone]').forEach(milestone => {
+                    const reached = Number(milestone.dataset.expeditionMilestone) <= stage.position;
+                    milestone.classList.toggle('text-emerald-300', reached);
+                    milestone.classList.toggle('font-semibold', reached);
+                });
+            });
+        }
+
+        function formatUrbanizationNumber(value, decimals) {
+            return new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }).format(value);
+        }
+
+        function animateUrbanizationCounter(counter) {
+            const target = Number(counter.dataset.countTo);
+            const decimals = Number(counter.dataset.decimals);
+            const suffix = counter.dataset.suffix;
+            const duration = 1050;
+            const startTime = performance.now();
+
+            const update = (now) => {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                counter.textContent = `${formatUrbanizationNumber(target * easedProgress, decimals)}${suffix}`;
+                if (progress < 1) {
+                    urbanizationAnimationFrames.push(requestAnimationFrame(update));
+                } else {
+                    counter.textContent = `${formatUrbanizationNumber(target, decimals)}${suffix}`;
+                }
+            };
+
+            urbanizationAnimationFrames.push(requestAnimationFrame(update));
+        }
+
+        function startUrbanizationSequence() {
+            const slide = document.getElementById('slide-4');
+            const tab = document.getElementById('tab-1');
+            if (!slide || !tab || tab.classList.contains('hidden')) return;
+
+            urbanizationSequenceTimers.forEach(clearTimeout);
+            urbanizationSequenceTimers = [];
+            urbanizationAnimationFrames.forEach(cancelAnimationFrame);
+            urbanizationAnimationFrames = [];
+
+            slide.querySelectorAll('.sequence-visible').forEach(element => element.classList.remove('sequence-visible'));
+            tab.classList.remove('sequence-running');
+            tab.querySelectorAll('.count-up').forEach(counter => { counter.textContent = '0'; });
+            void tab.offsetWidth;
+
+            const sequenceElements = [
+                ...slide.querySelectorAll('.urbanization-heading, .urbanization-tabs, .urban-stat-card, .urban-map-panel, .urban-table-panel, .urban-progress-panel, .urban-table-row')
+            ];
+            sequenceElements.forEach(element => element.classList.add('sequence-visible'));
+            tab.classList.add('sequence-running');
+
+            updateExpeditionProgress('tab-1');
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                tab.querySelectorAll('.count-up').forEach(counter => {
+                    counter.textContent = `${formatUrbanizationNumber(Number(counter.dataset.countTo), Number(counter.dataset.decimals))}${counter.dataset.suffix}`;
+                });
+                return;
+            }
+
+            tab.querySelectorAll('.count-up').forEach((counter, index) => {
+                urbanizationSequenceTimers.push(setTimeout(() => animateUrbanizationCounter(counter), 720 + index * 330));
+            });
+        }
+
+        /* BABAK 1 LOGIC */
+        function renderQuizQuestion() {
+            const qData = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-num').innerText = currentQuizIndex + 1;
+            document.getElementById('quiz-progress').style.width = `${((currentQuizIndex + 1) / 6) * 100}%`;
+            document.getElementById('quiz-question').innerText = qData.q;
+
+            const optsDiv = document.getElementById('quiz-options');
+            optsDiv.innerHTML = '';
+
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            feedbackDiv.className = "hidden p-4 rounded-xl text-xs leading-relaxed";
+
+            const nextBtn = document.getElementById('btn-next-quiz');
+            nextBtn.disabled = true;
+            nextBtn.querySelector('span').innerText = currentQuizIndex === quizQuestions.length - 1 ? 'Selesaikan Pos Data' : 'Soal Berikutnya';
+            nextBtn.className = "px-6 py-3 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed transition-all flex items-center gap-2";
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-opt-btn p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 text-left text-xs font-medium text-slate-200 transition-all";
+                btn.innerText = opt;
+                btn.onclick = () => selectQuizAnswer(idx);
+                optsDiv.appendChild(btn);
+            });
+            if (quizSelections[currentQuizIndex] !== null) showQuizAnswer(quizSelections[currentQuizIndex]);
+        }
+
+        function selectQuizAnswer(selectedIndex) {
+            if (quizSelections[currentQuizIndex] !== null) return;
+            const qData = quizQuestions[currentQuizIndex];
+            const isCorrect = selectedIndex === qData.correct;
+            quizSelections[currentQuizIndex] = selectedIndex;
+            if (isCorrect) {
+                quizCorrectCount++;
+                playResultSound('win');
+            } else {
+                playResultSound('lose');
+            }
+
+            // Calculate Pos 1 Weighted Score (max 30)
+            gameScores.pos1 = Math.round((quizCorrectCount / 6) * 30);
+            updateLiveTotalScore();
+            saveExpeditionProgress();
+
+            showQuizAnswer(selectedIndex);
+        }
+
+        function showQuizAnswer(selectedIndex) {
+            const qData = quizQuestions[currentQuizIndex];
+            const optButtons = document.querySelectorAll('.quiz-opt-btn');
+            const feedbackDiv = document.getElementById('quiz-feedback');
+            optButtons.forEach(btn => { btn.onclick = null; btn.disabled = true; });
+
+            if (selectedIndex === qData.correct) {
+                optButtons[selectedIndex].className = "p-4 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300";
+                feedbackDiv.className = "p-4 rounded-xl text-xs leading-relaxed bg-emerald-500/10 border border-emerald-500/30 text-emerald-300";
+                feedbackDiv.innerHTML = `<strong class="block text-sm mb-1"><i class="fa-solid fa-circle-check"></i> Jawaban Benar!</strong> ${qData.explain}`;
+            } else {
+                optButtons[selectedIndex].className = "p-4 rounded-xl bg-rose-500/20 border-2 border-rose-500 text-left text-xs font-bold text-rose-300";
+                optButtons[qData.correct].className = "p-4 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300";
+                feedbackDiv.className = "p-4 rounded-xl text-xs leading-relaxed bg-rose-500/10 border border-rose-500/30 text-rose-300";
+                feedbackDiv.innerHTML = `<strong class="block text-sm mb-1"><i class="fa-solid fa-circle-xmark"></i> Jawaban Kurang Tepat!</strong> ${qData.explain}`;
+            }
+
+            const nextBtn = document.getElementById('btn-next-quiz');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-3 rounded-xl gradient-bg font-bold text-white text-sm shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all flex items-center gap-2";
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                renderQuizQuestion();
+                saveExpeditionProgress();
+            } else {
+                gameScores.total = gameScores.pos1 + gameScores.pos2 + gameScores.pos3;
+                updateLiveTotalScore();
+                document.getElementById('game-tab-1').className = "p-3 rounded-xl border text-center transition-all bg-emerald-950/40 border-emerald-800 text-emerald-400";
+                completeExpeditionStop(2);
+            }
+        }
+
+        /* BABAK 2 LOGIC */
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function renderMatchingGame() {
+            const casesContainer = document.getElementById('match-cases');
+            const solutionsContainer = document.getElementById('match-solutions');
+
+            casesContainer.innerHTML = '';
+            solutionsContainer.innerHTML = '';
+
+            const shuffledCases = shuffleArray([...matchPairsData]);
+            const shuffledSolutions = shuffleArray([...matchPairsData]);
+
+            shuffledCases.forEach(item => {
+                const btn = document.createElement('button');
+                btn.id = `case-${item.id}`;
+                btn.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+                btn.innerText = item.case;
+                btn.onclick = () => selectMatchCase(item.id);
+                casesContainer.appendChild(btn);
+            });
+
+            shuffledSolutions.forEach(item => {
+                const btn = document.createElement('button');
+                btn.id = `sol-${item.id}`;
+                btn.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+                btn.innerText = item.solution;
+                btn.onclick = () => selectMatchSolution(item.id);
+                solutionsContainer.appendChild(btn);
+            });
+
+            matchedCount = matchedPairIds.size;
+            matchedPairIds.forEach(id => {
+                ['case', 'sol'].forEach(kind => {
+                    const button = document.getElementById(`${kind}-${id}`);
+                    if (button) {
+                        button.disabled = true;
+                        button.className = 'match-btn w-full p-3.5 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300';
+                    }
+                });
+            });
+
+            const allMatched = matchedCount === matchPairsData.length;
+            document.getElementById('match-summary').classList.toggle('hidden', !allMatched);
+            const nextButton = document.getElementById('btn-next-pos2');
+            nextButton.disabled = !allMatched;
+            nextButton.className = allMatched
+                ? 'px-6 py-3 rounded-xl gradient-bg font-bold text-white text-sm shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all flex items-center gap-2'
+                : 'px-6 py-3 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed transition-all flex items-center gap-2';
+        }
+
+        function selectMatchCase(id) {
+            if (document.getElementById(`case-${id}`).disabled) return;
+
+            document.querySelectorAll('#match-cases .match-btn').forEach(b => {
+                if (!b.disabled) b.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+            });
+
+            selectedCaseId = id;
+            document.getElementById(`case-${id}`).className = "match-btn w-full p-3.5 rounded-xl bg-sky-500/20 border-2 border-sky-500 text-left text-xs font-bold text-sky-300";
+
+            checkMatchPair();
+        }
+
+        function selectMatchSolution(id) {
+            if (document.getElementById(`sol-${id}`).disabled) return;
+
+            document.querySelectorAll('#match-solutions .match-btn').forEach(b => {
+                if (!b.disabled) b.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+            });
+
+            selectedSolutionId = id;
+            document.getElementById(`sol-${id}`).className = "match-btn w-full p-3.5 rounded-xl bg-sky-500/20 border-2 border-sky-500 text-left text-xs font-bold text-sky-300";
+
+            checkMatchPair();
+        }
+
+        function checkMatchPair() {
+            if (selectedCaseId && selectedSolutionId) {
+                const caseBtn = document.getElementById(`case-${selectedCaseId}`);
+                const solBtn = document.getElementById(`sol-${selectedSolutionId}`);
+
+                if (selectedCaseId === selectedSolutionId) {
+                    // Correct Match
+                    caseBtn.className = "match-btn w-full p-3.5 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300";
+                    solBtn.className = "match-btn w-full p-3.5 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left text-xs font-bold text-emerald-300";
+                    caseBtn.disabled = true;
+                    solBtn.disabled = true;
+                    playResultSound('win');
+
+                    matchedCount++;
+                    matchedPairIds.add(selectedCaseId);
+                    gameScores.pos2 = Math.round((matchedCount / 5) * 30);
+                    updateLiveTotalScore();
+                    saveExpeditionProgress();
+
+                    if (matchedCount === 5) {
+                        document.getElementById('match-summary').classList.remove('hidden');
+                        const nextBtn = document.getElementById('btn-next-pos2');
+                        nextBtn.disabled = false;
+                        nextBtn.className = "px-6 py-3 rounded-xl gradient-bg font-bold text-white text-sm shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all flex items-center gap-2";
+                    }
+                } else {
+                    // Wrong Match -> Flash Red
+                    caseBtn.className = "match-btn w-full p-3.5 rounded-xl bg-rose-500/20 border-2 border-rose-500 text-left text-xs font-bold text-rose-300 animate-bounce";
+                    solBtn.className = "match-btn w-full p-3.5 rounded-xl bg-rose-500/20 border-2 border-rose-500 text-left text-xs font-bold text-rose-300 animate-bounce";
+                    playResultSound('lose');
+
+                    setTimeout(() => {
+                        caseBtn.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+                        solBtn.className = "match-btn w-full p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-left text-xs text-slate-200 hover:border-sky-500 transition-all font-medium";
+                    }, 800);
+                }
+
+                selectedCaseId = null;
+                selectedSolutionId = null;
+            }
+        }
+
+        function finishPos2() {
+            if (matchedCount !== matchPairsData.length) return;
+            document.getElementById('game-tab-2').className = "p-3 rounded-xl border text-center transition-all bg-emerald-950/40 border-emerald-800 text-emerald-400";
+            completeExpeditionStop(3);
+        }
+
+        /* BABAK 3 LOGIC (Cabinet Budget Sliders) */
+        function updateBudgetSliders() {
+            const v1 = parseInt(document.getElementById('slider-1').value);
+            const v2 = parseInt(document.getElementById('slider-2').value);
+            const v3 = parseInt(document.getElementById('slider-3').value);
+            const v4 = parseInt(document.getElementById('slider-4').value);
+
+            document.getElementById('val-slider-1').innerText = `${v1} Poin`;
+            document.getElementById('val-slider-2').innerText = `${v2} Poin`;
+            document.getElementById('val-slider-3').innerText = `${v3} Poin`;
+            document.getElementById('val-slider-4').innerText = `${v4} Poin`;
+
+            const total = v1 + v2 + v3 + v4;
+            const totalDisplay = document.getElementById('budget-total');
+            totalDisplay.innerText = `${total} / 100 Poin`;
+
+            if (total === 100) {
+                totalDisplay.className = "text-xl font-extrabold font-mono text-emerald-400";
+                document.getElementById('budget-error').classList.add('hidden');
+            } else {
+                totalDisplay.className = "text-xl font-extrabold font-mono text-rose-400";
+            }
+            saveExpeditionProgress();
+        }
+
+        function submitCabinetBudget() {
+            const v1 = parseInt(document.getElementById('slider-1').value);
+            const v2 = parseInt(document.getElementById('slider-2').value);
+            const v3 = parseInt(document.getElementById('slider-3').value);
+            const v4 = parseInt(document.getElementById('slider-4').value);
+
+            const total = v1 + v2 + v3 + v4;
+            if (total !== 100) {
+                document.getElementById('budget-error').classList.remove('hidden');
+                return;
+            }
+
+            // Calculate Pos 3 Score based on deviation from RPJPN Ideal Allocation:
+            // Ideal: Pemerataan = 30, Transportasi = 25, Vokasi = 30, Lansia = 15
+            const dev1 = Math.abs(30 - v1);
+            const dev2 = Math.abs(25 - v2);
+            const dev3 = Math.abs(30 - v3);
+            const dev4 = Math.abs(15 - v4);
+
+            const totalDeviation = dev1 + dev2 + dev3 + dev4;
+            // Max score 100 scaled to 40% weight
+            let rawPos3Score = Math.max(0, 100 - (totalDeviation * 1.5));
+            gameScores.pos3 = Math.round((rawPos3Score / 100) * 40);
+
+            updateLiveTotalScore();
+            document.getElementById('game-tab-3').className = "p-3 rounded-xl border text-center transition-all bg-emerald-950/40 border-emerald-800 text-emerald-400";
+            completeExpeditionStop(4);
+            generateCertificate();
+        }
+
+        function updateLiveTotalScore() {
+            gameScores.total = gameScores.pos1 + gameScores.pos2 + gameScores.pos3;
+            const scoreText = `${gameScores.total} / 100`;
+            document.getElementById('live-total-score').innerText = scoreText;
+            document.getElementById('modal-total-score').innerText = scoreText;
+        }
+
+        /* Generate Certificate Details */
+        function generateCertificate() {
+            document.getElementById('cert-student-name').innerText = userData.nama || "Siswa Teladan";
+            document.getElementById('cert-student-school').innerText = `${userData.kelas || 'Kelas X'} • ${userData.sekolah || 'SMA Indonesia'}`;
+
+            document.getElementById('cert-score-1').innerText = `${gameScores.pos1} / 30`;
+            document.getElementById('cert-score-2').innerText = `${gameScores.pos2} / 30`;
+            document.getElementById('cert-score-3').innerText = `${gameScores.pos3} / 40`;
+
+            const final = gameScores.total;
+            document.getElementById('cert-final-score').innerText = final;
+            document.getElementById('cert-completion').innerText = `${Math.round((completedExpeditionStops.size / 4) * 100)}%`;
+
+            const predBadge = document.getElementById('cert-predicate');
+
+            if (final >= 85) {
+                predBadge.innerText = "Duta Indonesia Emas 2045";
+                predBadge.className = "inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-300 font-bold text-xs";
+            } else if (final >= 70) {
+                predBadge.innerText = "Kabinet Muda Berpengalaman";
+                predBadge.className = "inline-block px-4 py-1.5 rounded-full bg-sky-500/20 border border-sky-500 text-sky-300 font-bold text-xs";
+            } else if (final >= 50) {
+                predBadge.innerText = "Peneliti Muda Pemula";
+                predBadge.className = "inline-block px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-500 text-amber-300 font-bold text-xs";
+            } else {
+                predBadge.innerText = "Perlu Ekspedisi Ulang";
+                predBadge.className = "inline-block px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-500 text-rose-300 font-bold text-xs";
+            }
+
+            const today = new Date();
+            document.getElementById('cert-date').innerText = today.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        /* Download Certificate as PNG image using html2canvas */
+        function downloadCertificate() {
+            const node = document.getElementById('certificate-node');
+            
+            html2canvas(node, {
+                backgroundColor: '#0f172a',
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Sertifikat_Demografi_${userData.nama.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        /* Restart Game */
+        function restartGame() {
+            currentQuizIndex = 0;
+            quizCorrectCount = 0;
+            quizSelections = Array(quizQuestions.length).fill(null);
+            matchedCount = 0;
+            matchedPairIds.clear();
+            selectedCaseId = null;
+            selectedSolutionId = null;
+            expeditionUnlocked = 1;
+            activeExpeditionStop = null;
+            completedExpeditionStops.clear();
+            localStorage.removeItem(expeditionStorageKey);
+
+            closeExpeditionBriefing();
+            closeExpeditionActivity();
+            document.getElementById('match-summary').classList.add('hidden');
+            document.getElementById('btn-next-pos2').disabled = true;
+            document.getElementById('btn-next-pos2').className = "px-6 py-3 rounded-xl bg-slate-800 text-slate-500 font-bold text-sm cursor-not-allowed transition-all flex items-center gap-2";
+            [1, 2, 3, 4].forEach(sliderNumber => {
+                document.getElementById(`slider-${sliderNumber}`).value = 25;
+            });
+
+            gameScores = { pos1: 0, pos2: 0, pos3: 0, total: 0 };
+            updateLiveTotalScore();
+            updateBudgetSliders();
+            renderExpeditionMap();
+            saveExpeditionProgress();
+
+            document.getElementById('pos-1-container').classList.remove('hidden');
+            document.getElementById('pos-2-container').classList.add('hidden');
+            document.getElementById('pos-3-container').classList.add('hidden');
+
+            document.getElementById('game-tab-1').className = "p-3 rounded-xl border text-center transition-all bg-emerald-500/20 border-emerald-500 text-emerald-300";
+            document.getElementById('game-tab-2').className = "p-3 rounded-xl border text-center transition-all bg-slate-900 border-slate-800 text-slate-500";
+            document.getElementById('game-tab-3').className = "p-3 rounded-xl border text-center transition-all bg-slate-900 border-slate-800 text-slate-500";
+
+            renderQuizQuestion();
+            goToSlide(5);
+        }
+
+        /* Initialize on load */
+        window.onload = function() {
+            localStorage.removeItem(expeditionStorageKey);
+            currentQuizIndex = 0;
+            quizCorrectCount = 0;
+            quizSelections = Array(quizQuestions.length).fill(null);
+            matchedCount = 0;
+            matchedPairIds.clear();
+            selectedCaseId = null;
+            selectedSolutionId = null;
+            expeditionUnlocked = 1;
+            activeExpeditionStop = null;
+            completedExpeditionStops.clear();
+            gameScores = { pos1: 0, pos2: 0, pos3: 0, total: 0 };
+
+            renderQuizQuestion();
+            updateBudgetSliders();
+            updateLiveTotalScore();
+            updateExpeditionProgress('tab-1');
+            renderExpeditionMap();
+            goToSlide(1);
+        }
+    </script>
+</body>
+</html>
